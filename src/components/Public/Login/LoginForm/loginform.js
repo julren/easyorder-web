@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Form, Field, Button } from "formik-semantic-ui";
 import * as Yup from "yup";
-import { db, firebase } from "../../../config/firebase";
+import { db, firebase } from "../../../../config/firebase";
 
 const ValidationSchema = Yup.object().shape({
   email: Yup.string()

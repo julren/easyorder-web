@@ -1,17 +1,52 @@
 import React, { Component } from "react";
 
 import { firebaseRestaurants, firebase } from "../../config/firebase";
-import { Header } from "semantic-ui-react";
-import { Form, Button, Input, Dropdown } from "formik-semantic-ui";
+import {
+  Header,
+  Card,
+  Segment,
+  Container,
+  Table,
+  Divider,
+  Image
+} from "semantic-ui-react";
+import { Form, Button, Input, Dropdown, TextArea } from "formik-semantic-ui";
 import * as Yup from "yup";
-import FileUpload from "./fileUpload";
+import FileUpload from "../FormHelper/fileUpload";
+import ShowPropsInUI from "../../utils/ShowPropsInUI";
+import { WEEKDAYS, PRICECLASSES } from "../../utils/globalConstants";
+import { Field, FieldArray } from "formik";
+import { storage } from "../../config/firebase";
+import BusinessHoursSegment from "./RestaurantForm/businessHoursSegment";
+import AboutRestaurantSegment from "./RestaurantForm/aboutRestaurantSegment";
+import MediaSegment from "./RestaurantForm/mediaSegment";
+import ContactSegment from "./RestaurantForm/contactSegment";
 
-import { WEEKDAYS } from "../../utils/globalConstants";
 const ValidationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("E-mail is not valid!")
-    .required("E-mail is required!"),
-  password: Yup.string().required("Password is required!")
+  name: Yup.string().required("Pflichtfeld"),
+  desc: Yup.string().required("Pflichtfeld"),
+  cuisine: Yup.string().required("Pflichtfeld"),
+  priceClass: Yup.string().required("Pflichtfeld"),
+  adress: Yup.object().shape({
+    street: Yup.string().required("Pflichtfeld"),
+    postcode: Yup.string().required("Pflichtfeld"),
+    city: Yup.string().required("Pflichtfeld")
+  }),
+  contactInfo: Yup.object().shape({
+    email: Yup.string()
+      .email()
+      .required("Pflichtfeld"),
+    phone: Yup.string().required("Pflichtfeld")
+  }),
+  businessHours: Yup.object().shape({
+    day: Yup.string().required("Pflichtfeld"),
+    openingHour: Yup.string()
+      .matches(/([01]?[0-9]|2[0-3]):[0-5][0-9]/)
+      .required("Pflichtfeld"),
+    closingHour: Yup.string()
+      .matches(/([01]?[0-9]|2[0-3]):[0-5][0-9]/)
+      .required("Pflichtfeld")
+  })
 });
 
 class Restaurant extends Component {
@@ -21,17 +56,29 @@ class Restaurant extends Component {
     this.state = {
       formValues: {
         name: "",
-        street: "",
-        postcode: "",
-        city: "",
-        email: "",
-        phone: "",
-        openingDay: "",
-        openingHour: "",
-        closingDay: "",
-        closingHour: "",
-        photos: "",
-        imageURLs: []
+        desc: "",
+        cuisine: "",
+        priceClass: "",
+        adress: {
+          street: "",
+          postcode: "",
+          city: ""
+        },
+        contactInfo: {
+          email: "",
+          phone: ""
+        },
+        businessHours: [
+          {
+            day: "",
+            openingHour: "",
+            closingHour: ""
+          }
+        ],
+        media: {
+          photoURL: "",
+          logoURL: ""
+        }
       },
       uid: ""
     };
@@ -39,6 +86,17 @@ class Restaurant extends Component {
 
   componentDidMount() {
     this._isMounted = true;
+    this.getRestaurantData();
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+  delteFromStorage(downloadURL) {
+    const fileRef = storage.refFromURL(downloadURL);
+    fileRef.delete();
+  }
+
+  getRestaurantData() {
     firebaseRestaurants
       .where("author", "==", firebase.auth().currentUser.uid)
       .get()
@@ -60,9 +118,6 @@ class Restaurant extends Component {
       .catch(error => {
         console.error("Error getting document: ", error);
       });
-  }
-  componentWillUnmount() {
-    this._isMounted = false;
   }
 
   handleSubmit = (values, formikApi) => {
@@ -96,63 +151,35 @@ class Restaurant extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Restaurant</h1>
-
+      <Container>
+        <Header as="h1">
+          Restaurant
+          <Header.Subheader>Angaben zum Restaurant bearbeiten</Header.Subheader>
+        </Header>
         <Form
           enableReinitialize={true}
           initialValues={this.state.formValues}
           onSubmit={this.handleSubmit}
           // validationSchema={ValidationSchema}
-          render={() => (
-            <Form.Children>
-              <Input label="Name" name="name" />
-              <Input label="Straße" name="street" />
-              <Form.Group widths="2">
-                <Input label="PLZ" name="postcode" />
-                <Input label="Ort" name="city" />
-              </Form.Group>
-              <Form.Group widths="2">
-                <Input label="Telefon" name="phone" />
-                <Input label="Email" name="email" />
-              </Form.Group>
-              <Header as="h4">Öffnungszeiten</Header>
-              <Form.Group widths="4">
-                <Dropdown
-                  label="Erster Tag"
-                  name="openingDay"
-                  options={WEEKDAYS}
-                />
-                <Input
-                  label="Öffnungszeit"
-                  name="openingHour"
-                  inputProps={{
-                    label: { basic: true, content: "Uhr" },
-                    labelPosition: "right"
-                  }}
-                />
-                <Dropdown
-                  label="Letzter Tag"
-                  name="closingDay"
-                  options={WEEKDAYS}
-                />
-                <Input
-                  label="Ladenschluss"
-                  name="closingHour"
-                  inputProps={{
-                    label: { basic: true, content: "Uhr" },
-                    labelPosition: "right"
-                  }}
-                />
-              </Form.Group>
+          render={({ values, form }) => (
+            <Container>
+              <Form.Children>
+                <Segment basic>
+                  <AboutRestaurantSegment />
+                  <BusinessHoursSegment formValue={values} />
+                  <ContactSegment />
+                  <MediaSegment form={form} />
+                  <Button.Submit size="big" floated="right">
+                    Speichern
+                  </Button.Submit>
+                </Segment>
 
-              {/* <FileUpload name="imageURLs" label="Fotos" /> */}
-
-              <Button.Submit>Speichern</Button.Submit>
-            </Form.Children>
+                {/* <ShowPropsInUI data={values} /> */}
+              </Form.Children>
+            </Container>
           )}
         />
-      </div>
+      </Container>
     );
   }
 }

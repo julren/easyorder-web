@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import "./main.css";
+import { Container, Segment } from "semantic-ui-react";
 
 class Main extends Component {
   render() {
-    return <div className="main">{this.props.children}</div>;
+    return <Container>{this.props.children}</Container>;
   }
 }
 

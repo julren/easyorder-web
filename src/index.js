@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { firebase } from "./config/firebase";
-import Landing from "./components/Landing/landing";
+import Public from "./components/Public/public";
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
@@ -19,6 +19,6 @@ firebase.auth().onAuthStateChanged(user => {
     ReactDOM.render(<App auth={user} />, document.getElementById("root"));
   } else {
     console.log("logged out");
-    ReactDOM.render(<Landing />, document.getElementById("root"));
+    ReactDOM.render(<Public />, document.getElementById("root"));
   }
 });

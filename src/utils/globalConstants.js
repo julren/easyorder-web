@@ -29,4 +29,19 @@ const WEEKDAYS = [
   }
 ];
 
-export { WEEKDAYS };
+const PRICECLASSES = [
+  {
+    text: "Günstig",
+    value: "1"
+  },
+  {
+    text: "Durchschnittlich",
+    value: "2"
+  },
+  {
+    text: "Gehoben",
+    value: "3"
+  }
+];
+
+export { WEEKDAYS, PRICECLASSES };

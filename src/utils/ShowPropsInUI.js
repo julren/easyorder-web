@@ -4,7 +4,7 @@ const ShowPropsInUi = props => {
   return (
     <div>
       <div style={{ margin: "1rem 0" }}>
-        <h3 style={{ fontFamily: "monospace" }} />
+        <div style={{ fontFamily: "monospace" }} />
         <pre
           style={{
             background: "#f6f8fa",
@@ -12,7 +12,7 @@ const ShowPropsInUi = props => {
             padding: ".5rem"
           }}
         >
-          <strong>props</strong> = {JSON.stringify({ ...props }, null, 2)}
+          {JSON.stringify(props.data, null, 2)}
         </pre>
       </div>
     </div>

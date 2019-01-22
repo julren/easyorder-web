@@ -8,11 +8,10 @@ import {
   Segment,
   Image
 } from "semantic-ui-react";
-
+import ImageCompressor from "image-compressor.js";
 import { storage } from "../../config/firebase";
 
 import { Field } from "formik";
-import ImageThumbnails from "./imageThumbnails";
 let fieldCounter = 0;
 
 class FileUpload extends Component {
@@ -22,38 +21,47 @@ class FileUpload extends Component {
   }
 
   componentDidMount() {
-    this.restaurantImagesRef = storage.ref();
+    this.storageRef = storage.ref();
   }
 
-  uploadImages = files => {
-    const imageURLs = [];
-    let counter = 0;
+  compressImage(file) {
+    return new Promise((resolve, reject) => {
+      new ImageCompressor(file, {
+        quality: 0.6,
+        maxWidth: 400,
+        success(result) {
+          console.log("success compress");
+          resolve(result);
+        },
+        error(e) {
+          console.log(e.message);
+        }
+      });
+    });
+  }
+
+  uploadImages = file => {
+    let imageURL = "";
+
+    const fileExtension = file.name.replace(/(.*)\.(.*?)$/, "$2");
+    const filename = this.props.fileName + "." + fileExtension;
 
     return new Promise((resolve, reject) => {
-      files.forEach(file => {
-        const filename = file.name;
-        const storagePath = "images/resturants/" + filename;
+      const storagePath = "public/images/" + filename;
 
-        this.restaurantImagesRef
-          .child(storagePath)
-          .put(file)
-          .then(snapshot => {
-            console.log("Uploaded file " + filename, snapshot);
+      this.storageRef
+        .child(storagePath)
+        .put(file)
+        .then(snapshot => {
+          console.log("Uploaded file " + filename, snapshot);
 
-            snapshot.ref.getDownloadURL().then(downloadURL => {
-              console.log("File available at", downloadURL);
-              imageURLs.push(downloadURL);
-              counter++;
-              console.log(
-                "temp imageURLs after push",
-                imageURLs,
-                "counter",
-                counter
-              );
-              if (counter === files.length) resolve(imageURLs);
-            });
+          snapshot.ref.getDownloadURL().then(downloadURL => {
+            console.log("File available at", downloadURL);
+            imageURL = downloadURL;
+
+            resolve(imageURL);
           });
-      });
+        });
     });
   };
 
@@ -62,9 +70,13 @@ class FileUpload extends Component {
     console.log("handleDrop form form", form);
     console.log("handleDrop form acceptedFiles", acceptedFiles);
 
-    this.uploadImages(acceptedFiles).then(imageURLs => {
-      console.log("handledrop funciotn promise callbkac imageurls", imageURLs);
-      form.setFieldValue(formFieldName, imageURLs, true);
+    this.compressImage(acceptedFiles[0]).then(compressedImage => {
+      console.log("uploadImages step");
+
+      this.uploadImages(compressedImage).then(imageURL => {
+        console.log("handledrop funciotn promise callbkac imageurl", imageURL);
+        form.setFieldValue(formFieldName, imageURL, true);
+      });
     });
 
     // const reader = new FileReader();
@@ -111,9 +123,11 @@ class FileUpload extends Component {
                   return (
                     <div {...getRootProps()}>
                       <Segment
+                        placeholder
                         style={{
                           border: "1px dashed rgba(34,36,38,.15)",
-                          boxShadow: "none"
+                          boxShadow: "none",
+                          flex: 1
                         }}
                       >
                         <Header
@@ -131,9 +145,9 @@ class FileUpload extends Component {
                             ) : (
                               <div>
                                 <React.Fragment>
-                                  Dateien hier hineinziehen
+                                  Bilder hier hineinziehen
                                   <Header.Subheader>
-                                    Oder klicken um auszuwählen
+                                    Oder klicken, um den Auswahldialog zu öffnen
                                   </Header.Subheader>
                                 </React.Fragment>
                               </div>
@@ -145,10 +159,6 @@ class FileUpload extends Component {
                   );
                 }}
               </Dropzone>
-              <ImageThumbnails
-                imageURLs={form.values.imageURLs}
-                onDelete={value => this.delete(form, value)}
-              />
             </Form.Field>
           );
         }}

@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import { Form, Field, Button } from "formik-semantic-ui";
+import React from "react";
+import { Header } from "semantic-ui-react";
+import { Form, Button } from "formik-semantic-ui";
 import * as Yup from "yup";
-import ShowPropsInUI from "../../utils/ShowPropsInUI";
+import AuthLayout from "../hoc/authLayout";
 const ValidationSchema = Yup.object().shape({
   email: Yup.string()
     .email("E-mail is not valid!")
@@ -21,8 +22,8 @@ const handleSubmit = (vaules, formikApi) => {
 
 const SignUp = props => {
   return (
-    <div>
-      <h1>Signup</h1>
+    <AuthLayout>
+      <Header as="h1">Registrieren</Header>
 
       <Form
         onSubmit={handleSubmit}
@@ -44,7 +45,7 @@ const SignUp = props => {
       >
         <Button.Submit>Registrieren</Button.Submit>
       </Form>
-    </div>
+    </AuthLayout>
   );
 };
 
