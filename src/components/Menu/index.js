@@ -1,22 +1,5 @@
 import React, { Component } from "react";
-import {
-  Image,
-  Segment,
-  Header,
-  Accordion,
-  Icon,
-  List,
-  Modal,
-  Container,
-  Table,
-  Rating,
-  FormInput,
-  Grid
-} from "semantic-ui-react";
-import { Button, Input } from "formik-semantic-ui";
-import ShowPropsInUI from "../../utils/ShowPropsInUI";
-import { firebase, db, firebaseMenus } from "../../config/firebase";
-import { Formik, Field, Form, FieldArray } from "formik";
+import { Header, Container, Grid } from "semantic-ui-react";
 import CategoriesList from "./categoriesList";
 import MenuItemsList from "./menuItemsList";
 

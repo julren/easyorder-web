@@ -1,27 +1,38 @@
 import React from "react";
-import { Header, Image, Modal } from "semantic-ui-react";
-import { Button, Form, Input } from "formik-semantic-ui";
-import { firebase, firebaseMenuItems } from "../../../../config/firebase";
+import { Modal } from "semantic-ui-react";
 import MenuItemForm from "./menuItemForm";
 import PropTypes from "prop-types";
+import StorageHandler from "../../../FormHelper/storageHandler";
 
 const EditMenuItemModal = props => {
-  const { categoryID, open, onClose, menuItemDoc } = props;
-  const authorID = firebase.auth().currentUser.uid;
+  const { open, onClose, menuItemDoc } = props;
 
-  const handleSubmit = (values, formikApi) => {
+  const handleSubmit = async (values, formikApi) => {
+    const { photo } = values;
+    const hasPhotoFile = photo instanceof Blob;
+
+    let dataToSubmit = values;
+
+    if (hasPhotoFile) {
+      const fileName = `menuItem-${menuItemDoc.id}`;
+      await StorageHandler.uploadImage({
+        file: photo,
+        fileName: fileName
+      }).then(downloadURL => {
+        dataToSubmit.photo = downloadURL;
+      });
+    }
+
     menuItemDoc.ref
-      .set({
-        authorID: authorID,
-        categoryID: categoryID,
-        ...values
-      })
+      .set(dataToSubmit)
       .then(() => {
         formikApi.setSubmitting(false);
         onClose();
+        return;
       })
       .catch(error => {
         console.error(error);
+        return;
       });
   };
 
@@ -31,7 +42,6 @@ const EditMenuItemModal = props => {
       <Modal.Content>
         <Modal.Description>
           <MenuItemForm
-            fileName={`menuItems/${menuItemDoc.id}`}
             initialValues={menuItemDoc.data()}
             onSubmit={handleSubmit}
           />

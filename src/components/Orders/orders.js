@@ -1,10 +1,25 @@
 import React from "react";
+import { Grid, Header, Container } from "semantic-ui-react";
 
 const Order = props => {
   return (
-    <div>
-      <h1>Bestellung Nr. {props.orderID}</h1>
-    </div>
+    <Container>
+      <Header as="h1" content="Bestellungen" />
+
+      <Grid columns={3} divided stretched>
+        <Grid.Row>
+          <Grid.Column>
+            <Header as="h2" content="Neu" />
+          </Grid.Column>
+          <Grid.Column>
+            <Header as="h2" content="In Bearbeitung" />
+          </Grid.Column>
+          <Grid.Column>
+            <Header as="h2" content="Servierbereit" />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </Container>
   );
 };
 

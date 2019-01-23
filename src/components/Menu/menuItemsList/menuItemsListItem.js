@@ -1,22 +1,15 @@
 import React from "react";
-import { Table, Image, Rating, Button, Header, List } from "semantic-ui-react";
+import { Table, Image, Rating, Button, List } from "semantic-ui-react";
 
 const MenuItemsListItem = props => {
-  const {
-    name,
-    price,
-    rating,
-    description,
-    photoURL,
-    allergens
-  } = props.menuItemDoc.data();
+  const { name, price, rating, description, photo } = props.menuItemDoc.data();
 
   const { onDelete, onEdit } = props;
 
   return (
     <Table.Row>
       <Table.Cell collapsing>
-        <Image src={photoURL} style={{ width: "50px" }} />
+        <Image src={photo} style={{ width: "50px" }} />
       </Table.Cell>
       <Table.Cell>
         <List.Header>

@@ -6,7 +6,7 @@ import PrivateRoute from "./privateRoute";
 import Home from "../components/Home/home";
 import Account from "../components/Account/account";
 
-import Restaurant from "../components/Restaurant/restaurant";
+import Restaurant from "../components/Restaurant/";
 import Menu from "../components/Menu";
 import Report from "../components/Report/report";
 import Orders from "../components/Orders/orders";

@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  Container,
-  Header,
-  Segment,
-  List,
-  Button,
-  Rating,
-  Image
-} from "semantic-ui-react";
-import MenuItemForm from "../Menu/menuItemsList/Modals/menuItemForm";
+import { Container, Header } from "semantic-ui-react";
 
 class Home extends Component {
   test = [

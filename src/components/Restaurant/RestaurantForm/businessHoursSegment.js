@@ -5,7 +5,7 @@ import { Dropdown, Input, Form } from "formik-semantic-ui";
 import { WEEKDAYS } from "../../../utils/globalConstants";
 
 const BusinessHoursSegment = props => {
-  const businessHours = props.formValue.businessHours;
+  const businessHours = props.formValues.businessHours;
   return (
     <FieldArray
       name="businessHours"
@@ -20,7 +20,7 @@ const BusinessHoursSegment = props => {
                 <Table.HeaderCell>Tag</Table.HeaderCell>
                 <Table.HeaderCell>Von</Table.HeaderCell>
                 <Table.HeaderCell>Bis</Table.HeaderCell>
-                <Table.HeaderCell>Aktion</Table.HeaderCell>
+                <Table.HeaderCell textAlign="right">Aktion</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -51,7 +51,7 @@ const BusinessHoursSegment = props => {
                     />
                   </Table.Cell>
 
-                  <Table.Cell>
+                  <Table.Cell textAlign="right">
                     <Form.Button
                       basic
                       color="red"

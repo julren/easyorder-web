@@ -1,26 +1,31 @@
 import React from "react";
-import { Header, Image, Modal } from "semantic-ui-react";
-import { Button, Form, Input } from "formik-semantic-ui";
+import { Modal } from "semantic-ui-react";
 import { firebase, firebaseMenuItems } from "../../../../config/firebase";
 import MenuItemForm from "./menuItemForm";
+import StorageHandler from "../../../FormHelper/storageHandler";
 
 const CreateMenuItemModal = props => {
-  const placeholderMenuItem = {
-    name: "",
-    description: "",
-    price: "",
-    allergens: "",
-    photoURL: "",
-    rating: "",
-    numOfRatinga: "",
-    displayOrderIndex: ""
-  };
   const { categoryID, open, onClose } = props;
-  const authorID = firebase.auth().currentUser.uid;
 
-  const newMenuItemDocument = firebaseMenuItems.doc();
+  const handleSubmit = async (values, formikApi) => {
+    const { photo } = values;
+    const hasPhotoFile = photo instanceof Blob;
 
-  const handleSubmit = (values, formikApi) => {
+    const authorID = firebase.auth().currentUser.uid;
+    const newMenuItemDocument = firebaseMenuItems.doc();
+
+    let dataToSubmit = values;
+
+    if (hasPhotoFile) {
+      const fileName = `menuItem-${newMenuItemDocument.id}`;
+      await StorageHandler.uploadImage({
+        file: photo,
+        fileName: fileName
+      }).then(downloadURL => {
+        dataToSubmit.photo = downloadURL;
+      });
+    }
+
     newMenuItemDocument
       .set({
         authorID: authorID,
@@ -30,23 +35,20 @@ const CreateMenuItemModal = props => {
       .then(() => {
         formikApi.setSubmitting(false);
         onClose();
+        return;
       })
       .catch(error => {
         console.error(error);
+        return;
       });
   };
-
-  console.log("newMenuItemDocumentid", newMenuItemDocument.id);
 
   return (
     <Modal dimmer={true} open={open} onClose={onClose}>
       <Modal.Header>Gericht hinzufügen</Modal.Header>
       <Modal.Content>
         <Modal.Description>
-          <MenuItemForm
-            onSubmit={handleSubmit}
-            fileName={`menuItems/${newMenuItemDocument.id}`}
-          />
+          <MenuItemForm onSubmit={handleSubmit} />
         </Modal.Description>
       </Modal.Content>
     </Modal>

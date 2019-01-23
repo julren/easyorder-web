@@ -1,13 +1,6 @@
 import React, { Component } from "react";
-import {
-  List,
-  Header,
-  Button,
-  Table,
-  Container,
-  Segment
-} from "semantic-ui-react";
-import { firebase, db } from "../../../config/firebase";
+import { Header, Button, Table, Container, Segment } from "semantic-ui-react";
+import { db } from "../../../config/firebase";
 import CreateMenuItemModal from "./Modals/createMenuItemModal";
 import MenuItemsListItem from "./menuItemsListItem";
 import EditMenuItemModal from "./Modals/editMenuItemModal";
@@ -19,7 +12,7 @@ class MenuItemsList extends Component {
       createMenuItemModalOpen: false,
       editMenuItemModalOpenIndex: null,
       menuItemDocs: [],
-      loading: false
+      loading: true
     };
   }
 
@@ -122,7 +115,7 @@ class MenuItemsList extends Component {
 
   render() {
     const { handleModalOpen } = this;
-    const { categoryID, categoryName } = this.props;
+    const { categoryName } = this.props;
 
     return (
       <React.Fragment>
