@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import axios from "axios";
 import { firebaseRestaurants, firebase } from "../../config/firebase";
 import { Header, Segment, Container, Divider } from "semantic-ui-react";
 import { Form, Button } from "formik-semantic-ui";
@@ -115,6 +115,19 @@ class Restaurant extends Component {
         }
       );
     }
+    if (values.adress) {
+      const { street, city, postcode } = values.adress;
+      await axios
+        .get(
+          `https://nominatim.openstreetmap.org/search?q=${street},${postcode}+${city}&format=json`
+        )
+        .then(resp => {
+          if (resp.data.length > 0) {
+            dataToSubmit.adress.lat = resp.data[0].lat;
+            dataToSubmit.adress.lon = resp.data[0].lon;
+          }
+        });
+    }
 
     if (restaurantDoc) {
       this.updateRestaurantDoc(restaurantDoc, dataToSubmit).then(() => {
@@ -165,13 +178,15 @@ export default Restaurant;
 
 const placeholderRestaurantValues = {
   name: "",
-  desc: "",
+  description: "",
   cuisine: "",
   priceClass: "",
   adress: {
     street: "",
     postcode: "",
-    city: ""
+    city: "",
+    lat: "",
+    lon: ""
   },
   contactInfo: {
     email: "",

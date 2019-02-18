@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Image, Modal, Header } from "semantic-ui-react";
 import { Form, Input, Button } from "formik-semantic-ui";
-import { firebase, firebaseCategories } from "../../../config/firebase";
+import { firebase, firebaseCategories } from "../../../../config/firebase";
 import CategoryForm from "./categoryForm";
 
 const CreateCategoryModal = props => {

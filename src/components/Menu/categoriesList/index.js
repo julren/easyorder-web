@@ -7,20 +7,29 @@ import {
   Container,
   Menu,
   Label,
-  Segment
+  Segment,
+  Table
 } from "semantic-ui-react";
 import { firebase, db } from "../../../config/firebase";
-import CreateCategoryModal from "./createCategoryModal";
+import CreateCategoryModal from "./Modals/createCategoryModal";
+import CategoriesListItem from "./categoriesListItem";
+import EditCategoryModal from "./Modals/editCategoryModal";
 
 class CategoriesList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       categoryModalOpen: false,
-      categories: []
+      categoriesDocs: [],
+      editCategoryModalOpenIndex: null
     };
   }
-
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this.setState({ loading: true, categoriesDocs: [] });
+      this.getMenuSections();
+    }
+  }
   componentDidMount() {
     this._isMounted = true;
     this.getMenuSections();
@@ -39,6 +48,15 @@ class CategoriesList extends Component {
     this.setState({ categoryModalOpen: false });
   };
 
+  handleEditCategoryModalOpen = index => {
+    this.setState({ editCategoryModalOpenIndex: index });
+  };
+
+  handleEditCategoryModalClose = () => {
+    this.setState({ editCategoryModalOpenIndex: null });
+    this.getMenuSections();
+  };
+
   getMenuSections = () => {
     db.collection("categories")
       .where("authorID", "==", firebase.auth().currentUser.uid)
@@ -47,19 +65,26 @@ class CategoriesList extends Component {
         if (querySnapshot.empty) {
           console.log("No Categories for uid", firebase.auth().currentUser.uid);
         } else {
-          let categories = [];
+          let categoriesDocs = [];
           querySnapshot.forEach(doc => {
-            const category = { id: doc.id, ...doc.data() };
-            categories.push(category);
+            categoriesDocs.push(doc);
           });
           if (this._isMounted) {
-            this.setState({ categories: categories });
+            this.setState({ categoriesDocs: categoriesDocs });
           }
         }
       })
       .catch(error => {
         console.error("Error getting document: ", error);
       });
+  };
+
+  onDelete = doc => {
+    console.log("onDelete", doc);
+    doc.ref
+      .delete()
+      .then(this.getMenuSections())
+      .catch(error => console.error(error));
   };
 
   render() {
@@ -71,16 +96,25 @@ class CategoriesList extends Component {
           open={this.state.categoryModalOpen}
           onClose={this.handleModalClose}
         />
-        <Menu secondary vertical fluid>
-          {this.state.categories.map((item, index) => (
-            <Menu.Item
-              key={index}
-              name={item.name}
-              active={item.id === this.props.activeCategoryID}
-              onClick={() => onCategorySelect(item)}
-            />
+
+        <List divided selection verticalAlign="middle">
+          {this.state.categoriesDocs.map((doc, index) => (
+            <React.Fragment key={index}>
+              <CategoriesListItem
+                item={doc}
+                onClick={() => onCategorySelect(doc)}
+                onEdit={() => this.handleEditCategoryModalOpen(index)}
+                onDelete={() => this.onDelete(doc)}
+              />
+
+              <EditCategoryModal
+                categoryDoc={doc}
+                open={this.state.editCategoryModalOpenIndex === index}
+                onClose={this.handleEditCategoryModalClose}
+              />
+            </React.Fragment>
           ))}
-        </Menu>
+        </List>
 
         <Button
           compact

@@ -11,7 +11,7 @@ const AboutRestaurantSegment = props => {
         Über das Restaurant
       </Header>
       <Input label="Name" name="name" />
-      <TextArea label="Beschreibung" name="desc" />
+      <TextArea label="Beschreibung" name="description" />
       <Form.Group widths="2">
         <Dropdown
           label="Preisklasse"

@@ -17,12 +17,24 @@ const CreateMenuItemModal = props => {
     let dataToSubmit = values;
 
     if (hasPhotoFile) {
+      // Upload big image (600px)
       const fileName = `menuItem-${newMenuItemDocument.id}`;
       await StorageHandler.uploadImage({
         file: photo,
-        fileName: fileName
+        fileName: fileName,
+        downScalingMaxWidth: 600
       }).then(downloadURL => {
         dataToSubmit.photo = downloadURL;
+      });
+
+      // Upload Thumbnail (100px)
+      const fileName = `menuItem-${newMenuItemDocument.id}-thumb`;
+      await StorageHandler.uploadImage({
+        file: photo,
+        fileName: fileName,
+        downScalingMaxWidth: 100
+      }).then(downloadURL => {
+        dataToSubmit.photoThumb = downloadURL;
       });
     }
 

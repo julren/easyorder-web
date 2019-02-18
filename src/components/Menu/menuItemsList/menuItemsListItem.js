@@ -1,27 +1,23 @@
-import React from "react";
+import React, { Component } from "react";
 import { Table, Image, Rating, Button, List } from "semantic-ui-react";
 
-const MenuItemsListItem = props => {
-  const { name, price, rating, description, photo } = props.menuItemDoc.data();
+class MenuItemsListItem extends Component {
+  state = { hovering: false };
 
-  const { onDelete, onEdit } = props;
+  render() {
+    const {
+      name,
+      price,
+      rating,
+      description,
+      photo
+    } = this.props.menuItemDoc.data();
+    const { onDelete, onEdit } = this.props;
+    const handleMouseEnter = () => this.setState({ hovering: true });
+    const handleMouseLeave = () => this.setState({ hovering: false });
 
-  return (
-    <Table.Row>
-      <Table.Cell collapsing>
-        <Image src={photo} style={{ width: "50px" }} />
-      </Table.Cell>
-      <Table.Cell>
-        <List.Header>
-          <b>{name}</b>
-        </List.Header>
-        {description}
-      </Table.Cell>
-      <Table.Cell>{price}€</Table.Cell>
-      <Table.Cell>
-        <Rating rating={rating} maxRating={5} disabled />
-      </Table.Cell>
-      <Table.Cell collapsing textAlign="right">
+    const EditButtons = () => (
+      <React.Fragment>
         <Button
           compact
           basic
@@ -38,9 +34,33 @@ const MenuItemsListItem = props => {
           icon="trash"
           onClick={onDelete}
         />
-      </Table.Cell>
-    </Table.Row>
-  );
-};
+      </React.Fragment>
+    );
+
+    return (
+      <Table.Row
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Table.Cell collapsing>
+          <Image src={photo} style={{ width: "50px" }} />
+        </Table.Cell>
+        <Table.Cell>
+          <List.Header>
+            <b>{name}</b>
+            {description}
+          </List.Header>
+        </Table.Cell>
+        <Table.Cell>{price}€</Table.Cell>
+        <Table.Cell>
+          <Rating rating={rating} maxRating={5} disabled />
+        </Table.Cell>
+        <Table.Cell collapsing textAlign="right">
+          {this.state.hovering ? <EditButtons /> : null}
+        </Table.Cell>
+      </Table.Row>
+    );
+  }
+}
 
 export default MenuItemsListItem;

@@ -10,7 +10,7 @@ import ImageUploadField from "../../../FormHelper/imageUploadField";
 const placholderValues = {
   name: "",
   description: "",
-  price: "",
+  price: 0,
   photo: ""
 };
 

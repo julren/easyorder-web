@@ -7,12 +7,13 @@ export default {
    * @constructor
    * @param {file} file - File to upload
    * @param {string} fileName - Name for uploaded Image
+   * @param {number} downScalingMaxWidth - Scale Image down to max-width, default to 600px
    */
-  uploadImage: async ({ file, fileName }) => {
+  uploadImage: async ({ file, fileName, downScalingMaxWidth = 600 }) => {
     if (!file) return;
 
     try {
-      const compressedImage = await compressImage(file);
+      const compressedImage = await compressImage(file, downScalingMaxWidth);
       const downloadURL = await uploadImageToStorage(compressedImage, fileName);
       return downloadURL;
     } catch (error) {
@@ -32,12 +33,12 @@ export default {
   }
 };
 
-const compressImage = async file => {
+const compressImage = async (file, maxWidth) => {
   if (!file) throw Error("No file supplied");
   return new Promise(resolve => {
     new ImageCompressor(file, {
-      quality: 0.6,
-      maxWidth: 600,
+      quality: 0.7,
+      maxWidth: maxWidth,
       success(result) {
         resolve(result);
       },
