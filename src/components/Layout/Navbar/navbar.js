@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./navbar.css";
-import { Menu, Segment, Icon, Container } from "semantic-ui-react";
+import { Menu, Icon, Container, Dropdown } from "semantic-ui-react";
 
 import { firebase } from "../../../config/firebase";
 
@@ -68,16 +68,34 @@ class HeaderNav extends Component {
               Auswertungen
             </Menu.Item>
 
-            <Menu.Item
-              name="orders"
-              active={activeItem === "orders"}
-              onClick={this.handleItemClick}
-              as={Link}
-              to="/orders"
+            <Dropdown
+              item
+              className="link item"
+              trigger={
+                <>
+                  <Icon name="cart" /> Bestellungen
+                </>
+              }
             >
-              <Icon name="cart" />
-              Bestellungen
-            </Menu.Item>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  name="orders"
+                  onClick={this.handleItemClick}
+                  as={Link}
+                  to="/orders/live"
+                >
+                  Live Feed
+                </Dropdown.Item>
+                <Dropdown.Item
+                  name="orders"
+                  onClick={this.handleItemClick}
+                  as={Link}
+                  to="/orders/all"
+                >
+                  Alle Bestellungen
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
 
             <Menu.Item
               name="account"

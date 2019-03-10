@@ -3,14 +3,14 @@ import { Route, Redirect, Switch } from "react-router-dom";
 
 import PrivateRoute from "./privateRoute";
 
-import Home from "../components/Home/home";
-import Account from "../components/Account/account";
+import Home from "../pages/Home/Home";
+import Account from "../pages/Account/Account";
 
-import Restaurant from "../components/Restaurant/";
-import Menu from "../components/Menu";
-import Report from "../components/Report/report";
-import Orders from "../components/Orders/orders";
-import Order from "../components/Order/order";
+import Restaurant from "../pages/Restaurant/Resturant";
+import Menu from "../pages/Menu/Menu";
+import Report from "../pages/Report/Report";
+import LiveOrders from "../pages/Orders/LiveOrders/LiveOrders";
+import AllOrders from "../pages/Orders/AllOrders/AllOrders";
 
 const Routes = props => {
   return (
@@ -32,14 +32,14 @@ const Routes = props => {
       <PrivateRoute
         exact
         isLogged={props.auth}
-        path="/orders"
-        component={Orders}
+        path="/orders/live"
+        component={LiveOrders}
       />
       <PrivateRoute
         exact
         isLogged={props.auth}
-        path="/order"
-        component={Order}
+        path="/orders/all"
+        component={AllOrders}
       />
       <PrivateRoute
         exact

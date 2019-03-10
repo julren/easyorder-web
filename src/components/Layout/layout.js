@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import "./layout.css";
-import { Grid, Container, Segment, List, Header } from "semantic-ui-react";
+import { Grid, Container, Segment, Header } from "semantic-ui-react";
 
 import HeaderNav from "./Navbar/navbar";
 import Routes from "../../routes/routes";
@@ -14,13 +14,13 @@ const Layout = props => {
       <div>
         <Grid>
           <Grid.Row>
-            <Grid.Column width={16} verticalAlign="middle">
+            <Grid.Column width={16} verticalAlign="middle" color="blue">
               <Container className="brand-title">
                 <h1>EasyOrder</h1>
               </Container>
             </Grid.Column>
           </Grid.Row>
-          <Grid.Row>
+          <Grid.Row style={{ paddingTop: 0 }}>
             <Grid.Column width={16} verticalAlign="bottom">
               <HeaderNav {...props} />
             </Grid.Column>
@@ -35,7 +35,7 @@ const Layout = props => {
         </Segment>
       </main>
       <footer>
-        <Segment inverted vertical style={{ padding: "4em 0em" }}>
+        <Segment inverted color="black" vertical style={{ padding: "2em 0em" }}>
           <Container>
             <Header as="h4" inverted>
               EasyOrder
