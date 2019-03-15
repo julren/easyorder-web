@@ -8,6 +8,7 @@ import Account from "../pages/Account/Account";
 
 import Restaurant from "../pages/Restaurant/Resturant";
 import Menu from "../pages/Menu/Menu";
+import Tables from "../pages/Tables/Tables";
 import Report from "../pages/Report/Report";
 import LiveOrders from "../pages/Orders/LiveOrders/LiveOrders";
 import AllOrders from "../pages/Orders/AllOrders/AllOrders";
@@ -29,6 +30,14 @@ const Routes = props => {
         component={Restaurant}
       />
       <PrivateRoute exact isLogged={props.auth} path="/menu" component={Menu} />
+
+      <PrivateRoute
+        exact
+        isLogged={props.auth}
+        path="/tables"
+        component={Tables}
+      />
+
       <PrivateRoute
         exact
         isLogged={props.auth}

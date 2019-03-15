@@ -47,6 +47,17 @@ class HeaderNav extends Component {
             </Menu.Item>
 
             <Menu.Item
+              name="tables"
+              active={activeItem === "tables"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/tables"
+            >
+              <Icon name="grid layout" />
+              Tische
+            </Menu.Item>
+
+            <Menu.Item
               name="menu"
               active={activeItem === "menu"}
               onClick={this.handleItemClick}

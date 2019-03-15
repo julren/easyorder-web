@@ -1,12 +1,26 @@
 import React, { Component } from "react";
+import TableQrPDF from "../Tables/TableQrPDF";
+import QRCode from "qrcode";
+import { Container, Header, Grid } from "semantic-ui-react";
 
 class Report extends Component {
   state = {};
+
   render() {
     return (
-      <div>
-        <h1>Auswertungen</h1>
-      </div>
+      <Container>
+        <Header as="h1">
+          Auswertungen
+          <Header.Subheader>
+            Geschäftsdaten überwachen und neue Erkenntnisse gewinnen
+          </Header.Subheader>
+        </Header>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={4} />
+          </Grid.Row>
+        </Grid>
+      </Container>
     );
   }
 }
