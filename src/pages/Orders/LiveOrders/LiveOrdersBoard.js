@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Grid, Header, Container, Card, Segment } from "semantic-ui-react";
+import {
+  Grid,
+  Header,
+  Container,
+  Card,
+  Segment,
+  Loader
+} from "semantic-ui-react";
 import { firebase, db } from "../../../config/firebase";
 import OrderCard from "./OrderCard";
 
@@ -9,7 +16,8 @@ class LiveOrdersBoard extends Component {
     this.state = {
       openOrdersDocs: [],
       inProgressOrdersDocs: [],
-      readyForServingOrdersDocs: []
+      readyForServingOrdersDocs: [],
+      loading: true
     };
   }
 
@@ -47,7 +55,8 @@ class LiveOrdersBoard extends Component {
           this.setState({
             openOrdersDocs: openOrdersDocs,
             inProgressOrdersDocs: inProgressOrdersDocs,
-            readyForServingOrdersDocs: readyForServingOrdersDocs
+            readyForServingOrdersDocs: readyForServingOrdersDocs,
+            loading: false
           });
         }
       });
@@ -64,6 +73,9 @@ class LiveOrdersBoard extends Component {
   }
 
   render() {
+    const { openOrdersDocs, loading } = this.state;
+    if (loading) return <Loader size="big" active inline="centered" />;
+
     return (
       <Grid columns={3} verticalAlign="top">
         <Grid.Row>
@@ -72,9 +84,9 @@ class LiveOrdersBoard extends Component {
               <Header as="h2" content="Neu" />
             </Segment>
 
-            {this.state.openOrdersDocs.length > 0 ? (
+            {openOrdersDocs.length > 0 ? (
               <Card.Group>
-                {this.state.openOrdersDocs.map((orderDoc, index) => (
+                {openOrdersDocs.map((orderDoc, index) => (
                   <OrderCard key={orderDoc.id} orderDoc={orderDoc} />
                 ))}
               </Card.Group>

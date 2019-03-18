@@ -8,10 +8,7 @@ import {
   View,
   Image,
   Document,
-  StyleSheet,
-  Font,
-  PDFDownloadLink,
-  PDFViewer
+  StyleSheet
 } from "@react-pdf/renderer";
 import qr from "qr-image";
 import playStoreButtonImg from "./assets/get-it-on-google-play-button.png";
@@ -80,13 +77,28 @@ const styles = StyleSheet.create({
   },
   coverPhoto: {
     maxHeight: 200
+  },
+  footer: {
+    flex: 1,
+    height: 12,
+    backgroundColor: "#008ACD",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  footerText: {
+    color: "#D4E5EE",
+    fontSize: 6
   }
 });
 
 // Create Document Component
-const MyDocument = props => {
-  const { qrText, restaurantName = "La Dolce Vita" } = props;
-  const qr_png = qr.imageSync(qrText, {
+const TableQrPdfDocument = props => {
+  const { tableDoc } = props;
+
+  const tableID = tableDoc.id;
+  const { name: tableName } = tableDoc.data();
+
+  const qr_png = qr.imageSync(tableID, {
     type: "png",
     size: 60,
     margin: 0
@@ -108,9 +120,9 @@ const MyDocument = props => {
         />
 
         <View style={styles.section}>
-          <Text
-            style={styles.welcomeText}
-          >{`Wilkommen bei ${restaurantName}`}</Text>
+          <Text style={styles.welcomeText}>
+            Einfach mit EasyOrder bestellen!
+          </Text>
           <Text style={styles.descText}>
             {`Nutzen Sie die EasyOrder App, um bequem per Smartphone zu bestellen. Stellen Sie in der App ihr Menü zusammen und scannen Sie den QR-Code, um die Bestellung aufzugeben.`}
           </Text>
@@ -129,53 +141,12 @@ const MyDocument = props => {
             <Image style={styles.appStoreButton} source={playStoreButtonImg} />
           </View>
         </View>
-        <View
-          style={{
-            flex: 1,
-            height: 12,
-            backgroundColor: "#008ACD",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <Text style={{ color: "#D4E5EE", fontSize: 6 }}>{qrText}</Text>
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>{`${tableName} | ${tableID}`}</Text>
         </View>
       </Page>
     </Document>
   );
 };
 
-const TableQrPDFViewer = props => {
-  const { qrText = "placeholder", style } = props;
-
-  return (
-    <PDFViewer style={{ ...style }}>
-      <MyDocument qrText={qrText} />
-    </PDFViewer>
-  );
-};
-
-const TableQrPDFDownloadLink = props => {
-  const { qrText = "placeholder" } = props;
-
-  return (
-    <PDFDownloadLink
-      document={<MyDocument qrText={qrText} />}
-      fileName={`EasyOrder_TableCode_InfoDisplay_${qrText}.pdf`}
-    >
-      {({ blob, url, loading, error }) =>
-        loading ? "Lade PDF..." : "Jetzt runterladen!"
-      }
-    </PDFDownloadLink>
-  );
-};
-export default TableQrPDFViewer;
-export { TableQrPDFViewer, TableQrPDFDownloadLink };
-
-TableQrPDFViewer.propTypes = {
-  qrText: PropTypes.string.isRequired
-};
-
-TableQrPDFDownloadLink.propTypes = {
-  qrText: PropTypes.string.isRequired
-};
+export default TableQrPdfDocument;

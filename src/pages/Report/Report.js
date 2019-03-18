@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import TableQrPDF from "../Tables/TableQrPDF";
-import QRCode from "qrcode";
+
 import { Container, Header, Grid } from "semantic-ui-react";
 
 class Report extends Component {

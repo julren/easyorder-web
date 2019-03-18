@@ -1,23 +1,18 @@
 import React from "react";
 import { Modal } from "semantic-ui-react";
-import { firebase, firebaseCategories } from "../../../../config/firebase";
-import CategoryForm from "./categoryForm";
+import TableForm from "./TableForm";
+import { fireBaseTables, firebase } from "../../config/firebase";
 
-const CreateCategoryModal = props => {
+const CreateTableModal = props => {
   const { open, onClose } = props;
-
-  const placeholderCategory = {
-    name: "",
-    description: ""
-  };
 
   const handleSubmit = (values, formikApi) => {
     console.log("handleSubmit", values);
     const authorID = firebase.auth().currentUser.uid;
 
-    firebaseCategories
+    fireBaseTables
       .add({
-        authorID: authorID,
+        restaurantID: authorID,
         ...values
       })
       .then(() => {
@@ -32,18 +27,15 @@ const CreateCategoryModal = props => {
   return (
     <Modal size="small" dimmer={true} open={open} onClose={onClose}>
       <Modal.Header style={{ backgroundColor: "#008ACD", color: "#fff" }}>
-        Kategorie erstellen
+        Tisch hinzufügen
       </Modal.Header>
       <Modal.Content>
         <Modal.Description>
-          <CategoryForm
-            initialValues={placeholderCategory}
-            onSubmit={handleSubmit}
-          />
+          <TableForm onSubmit={handleSubmit} />
         </Modal.Description>
       </Modal.Content>
     </Modal>
   );
 };
 
-export default CreateCategoryModal;
+export default CreateTableModal;

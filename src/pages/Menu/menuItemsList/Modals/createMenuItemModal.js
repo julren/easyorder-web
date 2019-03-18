@@ -57,7 +57,9 @@ const CreateMenuItemModal = props => {
 
   return (
     <Modal dimmer={true} open={open} onClose={onClose}>
-      <Modal.Header>Gericht hinzufügen</Modal.Header>
+      <Modal.Header style={{ backgroundColor: "#008ACD", color: "#fff" }}>
+        Gericht hinzufügen
+      </Modal.Header>
       <Modal.Content>
         <Modal.Description>
           <MenuItemForm onSubmit={handleSubmit} />

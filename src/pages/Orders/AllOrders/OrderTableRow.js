@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Table, Button } from "semantic-ui-react";
 import OrderDetailModal from "../components/OrderDetailModal";
 import moment from "moment";
+import { statusDisplayNames } from "../../../utils/displayNamesForVariables";
 
 class OrderTableRow extends Component {
   state = {
@@ -13,13 +14,6 @@ class OrderTableRow extends Component {
   };
   closeModal = () => {
     this.setState({ modalOpen: false });
-  };
-
-  statusDisplayNames = {
-    open: "Offen",
-    inProgress: "In Bearbeitung",
-    readyForServing: "Servierbereit",
-    archived: "Archiviert"
   };
 
   render() {
@@ -39,7 +33,7 @@ class OrderTableRow extends Component {
           <Table.Cell>
             {moment(orderDate.toDate()).format("DD.MM.YYYY, hh:mm")}
           </Table.Cell>
-          <Table.Cell>{this.statusDisplayNames[status]}</Table.Cell>
+          <Table.Cell>{statusDisplayNames[status]}</Table.Cell>
           <Table.Cell>{table}</Table.Cell>
           <Table.Cell>{parseFloat(grandTotal).toFixed(2)}€</Table.Cell>
           <Table.Cell collapsing textAlign="right">

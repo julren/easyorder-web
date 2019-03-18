@@ -28,7 +28,9 @@ const OrderDetailModal = props => {
 
   return (
     <Modal dimmer={true} open={open} onClose={onClose}>
-      <Modal.Header>Details zur Bestellung</Modal.Header>
+      <Modal.Header style={{ backgroundColor: "#008ACD", color: "#fff" }}>
+        Details zur Bestellung
+      </Modal.Header>
 
       <Modal.Content>
         <StatusProgressStepper status={status} />
@@ -38,7 +40,7 @@ const OrderDetailModal = props => {
       </Modal.Content>
 
       <Modal.Actions>
-        <Button primary basic onClick={onClose}>
+        <Button primary onClick={onClose}>
           Fertig
         </Button>
       </Modal.Actions>

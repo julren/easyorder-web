@@ -10,7 +10,7 @@ const ValidationSchema = Yup.object().shape({
     .required("Pflichtfeld!")
 });
 
-const ChangePasswordForm = () => {
+const ChangeEmailForm = () => {
   const onSubmit = (values, formikApi) => {
     firebase
       .auth()
@@ -45,4 +45,4 @@ const ChangePasswordForm = () => {
   );
 };
 
-export default ChangePasswordForm;
+export default ChangeEmailForm;

@@ -1,10 +1,19 @@
 import React, { Component } from "react";
-import { Table, Button, Icon, Input, Segment } from "semantic-ui-react";
+import {
+  Table,
+  Button,
+  Icon,
+  Input,
+  Segment,
+  Menu,
+  Loader
+} from "semantic-ui-react";
 import _ from "lodash";
 import { db, firebase } from "../../../config/firebase";
 import moment from "moment";
 import OrderDetailModal from "../components/OrderDetailModal";
 import OrderTableRow from "./OrderTableRow";
+import { statusDisplayNames } from "../../../utils/displayNamesForVariables";
 
 class AllOrdersTable extends Component {
   constructor(props) {
@@ -13,7 +22,8 @@ class AllOrdersTable extends Component {
       column: null,
       diplayedOrderDocs: [],
       orderDocs: [],
-      direction: null
+      direction: null,
+      loading: true
     };
   }
 
@@ -36,7 +46,11 @@ class AllOrdersTable extends Component {
           querySnapshot.forEach(doc => {
             orderDocs.push(doc);
           });
-          this.setState({ orderDocs: orderDocs, diplayedOrderDocs: orderDocs });
+          this.setState({
+            orderDocs: orderDocs,
+            diplayedOrderDocs: orderDocs,
+            loading: false
+          });
         }
       });
   };
@@ -78,14 +92,14 @@ class AllOrdersTable extends Component {
       } = o.data();
       const searchString =
         id +
-        status +
+        statusDisplayNames[status] +
         table +
         grandTotal +
         customerID +
         paymentMethod +
         moment(orderDate.toDate()).format("DD.MM.YYYY, hh:mm");
 
-      return searchString.includes(searchTerm);
+      return searchString.toLowerCase().includes(searchTerm.toLowerCase());
     });
 
     this.setState({
@@ -98,8 +112,9 @@ class AllOrdersTable extends Component {
   };
 
   render() {
-    const { column, direction, diplayedOrderDocs } = this.state;
+    const { column, direction, diplayedOrderDocs, loading } = this.state;
 
+    if (loading) return <Loader active inline="centered" />;
     return (
       <React.Fragment>
         <Segment attached="top" color="blue" inverted>
@@ -156,6 +171,25 @@ class AllOrdersTable extends Component {
               <OrderTableRow orderDoc={doc} key={doc.id} />
             ))}
           </Table.Body>
+
+          <Table.Footer>
+            <Table.Row>
+              <Table.HeaderCell colSpan="6">
+                <Menu floated="right" pagination>
+                  <Menu.Item as="a" icon>
+                    <Icon name="chevron left" />
+                  </Menu.Item>
+                  <Menu.Item as="a">1</Menu.Item>
+                  <Menu.Item as="a">2</Menu.Item>
+                  <Menu.Item as="a">3</Menu.Item>
+                  <Menu.Item as="a">4</Menu.Item>
+                  <Menu.Item as="a" icon>
+                    <Icon name="chevron right" />
+                  </Menu.Item>
+                </Menu>
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
         </Table>
       </React.Fragment>
     );

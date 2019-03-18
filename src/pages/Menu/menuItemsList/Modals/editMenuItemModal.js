@@ -38,7 +38,9 @@ const EditMenuItemModal = props => {
 
   return (
     <Modal dimmer={true} open={open} onClose={onClose}>
-      <Modal.Header>Gericht bearbeiten</Modal.Header>
+      <Modal.Header style={{ backgroundColor: "#008ACD", color: "#fff" }}>
+        Gericht bearbeiten
+      </Modal.Header>
       <Modal.Content>
         <Modal.Description>
           <MenuItemForm
