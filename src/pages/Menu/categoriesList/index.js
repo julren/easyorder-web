@@ -107,9 +107,9 @@ class CategoriesList extends Component {
         </List>
 
         <Button
-          compact
-          basic
-          content="Kategorie erstellen"
+          primary
+          icon="plus"
+          content="Kategorie hinzufügen"
           onClick={this.handleModalOpen}
         />
       </React.Fragment>

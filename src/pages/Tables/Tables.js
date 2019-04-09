@@ -29,6 +29,7 @@ class Tables extends Component {
     this.getTables();
   }
 
+  //TODO: Tische Tabelle werden nicht aktualisiert nachdem ein Tisch bearbeitet wurde
   getTables = () => {
     console.log("getTAbel");
     db.collection("tables")
@@ -74,7 +75,7 @@ class Tables extends Component {
           </Header.Subheader>
         </Header>
 
-        <TablesTable tableDocs={tableDocs} />
+        <TablesTable tableDocs={tableDocs} onDataChange={this.getTables} />
 
         <Segment padded={false} clearing basic>
           <Button

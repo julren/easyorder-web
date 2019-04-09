@@ -84,12 +84,21 @@ class MenuItemsList extends Component {
 
   renderMenuItemTable = () => {
     const { menuItemDocs } = this.state;
-
     if (menuItemDocs.length <= 0) {
       return <Container>Noch keine Gerichte angelegt</Container>;
     } else {
       return (
-        <Table basic compact singleLine verticalAlign="middle">
+        <Table compact celled singleLine verticalAlign="middle">
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell />
+              <Table.HeaderCell>Name</Table.HeaderCell>
+              <Table.HeaderCell>Preis</Table.HeaderCell>
+              <Table.HeaderCell>Bewertung</Table.HeaderCell>
+              <Table.HeaderCell />
+            </Table.Row>
+          </Table.Header>
+
           <Table.Body>
             {menuItemDocs.map((doc, index) => (
               <React.Fragment key={index}>
@@ -119,29 +128,28 @@ class MenuItemsList extends Component {
 
     return (
       <React.Fragment>
-        <CreateMenuItemModal
-          categoryID={this.props.categoryID}
-          open={this.state.createMenuItemModalOpen}
-          onClose={this.handleModalClose}
-        />
-        <Header as="h3" content={categoryName} />
-
-        {/* <Segment basic>
+        <Segment basic>
           <Button basic content="Kategorie löschen" floated="right" />
           <Button basic content="Kategorie bearbeiten" floated="right" />
-        </Segment> */}
+        </Segment>
         <Segment basic loading={this.state.loading}>
           {this.renderMenuItemTable()}
         </Segment>
         <Segment basic clearing>
           <Button
-            basic
-            color="green"
+            primary
+            icon="plus"
             content="Gericht hinzufügen"
             floated="right"
             onClick={handleModalOpen}
           />
         </Segment>
+
+        <CreateMenuItemModal
+          categoryID={this.props.categoryID}
+          open={this.state.createMenuItemModalOpen}
+          onClose={this.handleModalClose}
+        />
       </React.Fragment>
     );
   }

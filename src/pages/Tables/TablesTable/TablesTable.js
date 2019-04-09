@@ -60,6 +60,7 @@ class TablesTable extends Component {
 
   render() {
     const { column, direction, diplayedTableDocs } = this.state;
+    const { onDataChange } = this.props;
 
     return (
       <React.Fragment>
@@ -103,7 +104,7 @@ class TablesTable extends Component {
               <TablesTableRow
                 tableDoc={doc}
                 key={doc.id}
-                onDataChange={() => this.getTables()}
+                onDataChange={onDataChange}
               />
             ))}
           </Table.Body>
