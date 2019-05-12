@@ -1,9 +1,10 @@
 import React from "react";
+
 import "./layout.css";
 import { Grid, Container, Segment, Header } from "semantic-ui-react";
 
 import HeaderNav from "./Navbar/navbar";
-import Routes from "../../routes/routes";
+import Routes from "../../routes/Routes";
 import Main from "./Main/main";
 
 const Layout = props => {

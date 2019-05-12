@@ -5,17 +5,19 @@ import { Header, Segment, Container, Divider } from "semantic-ui-react";
 import { Form, Button } from "formik-semantic-ui";
 import ShowPropsInUI from "../../utils/ShowPropsInUI";
 import { storage } from "../../config/firebase";
-import BusinessHoursSegment from "./RestaurantForm/businessHoursSegment";
-import AboutRestaurantSegment from "./RestaurantForm/aboutRestaurantSegment";
-import MediaSegment from "./RestaurantForm/mediaSegment";
-import ContactSegment from "./RestaurantForm/contactSegment";
+import BusinessHoursSegment from "./restaurantForm/BusinessHoursSegment";
+import AboutRestaurantSegment from "./restaurantForm/AboutRestaurantSegment";
+import MediaSegment from "./restaurantForm/MediaSegment";
+import ContactSegment from "./restaurantForm/ContactSegment";
 
-import StorageHandler from "../../components/FormHelper/storageHandler";
+import StorageHandler from "../../components/formHelper/storageHandler";
+import WithLoadingSpinner from "../../components/WithLoadingSpinner";
 
 class Restaurant extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       restaurantDoc: undefined,
       formValues: placeholderRestaurantValues
     };
@@ -31,26 +33,29 @@ class Restaurant extends Component {
 
   getRestaurantDoc() {
     firebaseRestaurants
-      .where("authorID", "==", firebase.auth().currentUser.uid)
+      .doc(firebase.auth().currentUser.uid)
       .get()
-      .then(querySnapshot => {
-        if (querySnapshot.empty) {
-          return;
+      .then(doc => {
+        if (!doc.exists) {
+          console.log("restaurant not found");
+          this.setState({ loading: false });
         } else {
-          let doc = querySnapshot.docs[0];
           if (this._isMounted) {
-            this.setState({ restaurantDoc: doc, formValues: doc.data() });
+            this.setState({
+              loading: false,
+              restaurantDoc: doc,
+              formValues: doc.data()
+            });
           }
         }
       })
       .catch(error => {
         console.error("Error getting document: ", error);
+        this.setState({ loading: false });
       });
   }
 
   async createNewRestaurantDoc(data) {
-    data = { authorID: firebase.auth().currentUser.uid, ...data };
-
     await firebaseRestaurants
       .doc(firebase.auth().currentUser.uid)
       .set(data)
@@ -115,16 +120,16 @@ class Restaurant extends Component {
         }
       );
     }
-    if (values.adress) {
-      const { street, city, postcode } = values.adress;
+    if (values.address) {
+      const { street, city, postcode } = values.address;
       await axios
         .get(
           `https://nominatim.openstreetmap.org/search?q=${street},${postcode}+${city}&format=json`
         )
         .then(resp => {
           if (resp.data.length > 0) {
-            dataToSubmit.adress.lat = resp.data[0].lat;
-            dataToSubmit.adress.lon = resp.data[0].lon;
+            dataToSubmit.address.lat = resp.data[0].lat;
+            dataToSubmit.address.lon = resp.data[0].lon;
           }
         });
     }
@@ -147,28 +152,30 @@ class Restaurant extends Component {
           Restaurant
           <Header.Subheader>Angaben zum Restaurant bearbeiten</Header.Subheader>
         </Header>
-        <Form
-          enableReinitialize={true}
-          initialValues={this.state.formValues}
-          onSubmit={this.handleSubmit}
-          // validationSchema={ValidationSchema}
-          render={({ values }) => (
-            <Container>
-              <Form.Children>
-                <AboutRestaurantSegment />
-                <BusinessHoursSegment formValues={values} />
-                <ContactSegment />
-                <MediaSegment />
-                <Divider hidden />
-                <Segment basic>
-                  <Button.Submit floated="right">Speichern</Button.Submit>
-                </Segment>
+        <WithLoadingSpinner loading={this.state.loading}>
+          <Form
+            enableReinitialize={true}
+            initialValues={this.state.formValues}
+            onSubmit={this.handleSubmit}
+            // validationSchema={ValidationSchema}
+            render={({ values }) => (
+              <Container>
+                <Form.Children>
+                  <AboutRestaurantSegment />
+                  <BusinessHoursSegment formValues={values} />
+                  <ContactSegment />
+                  <MediaSegment />
+                  <Divider hidden />
+                  <Segment basic>
+                    <Button.Submit floated="right">Speichern</Button.Submit>
+                  </Segment>
 
-                <ShowPropsInUI data={values} />
-              </Form.Children>
-            </Container>
-          )}
-        />
+                  <ShowPropsInUI data={values} />
+                </Form.Children>
+              </Container>
+            )}
+          />
+        </WithLoadingSpinner>
       </Container>
     );
   }
@@ -181,7 +188,7 @@ const placeholderRestaurantValues = {
   description: "",
   cuisine: "",
   priceClass: "",
-  adress: {
+  address: {
     street: "",
     postcode: "",
     city: "",
@@ -203,15 +210,17 @@ const placeholderRestaurantValues = {
     coverPhoto: "",
     logo: ""
   },
-  totalRatingPoints: 0,
-  totalNumRatings: 0,
-  avgRating: 0,
-  ratingDistribution: {
-    "5": 0,
-    "4": 0,
-    "3": 0,
-    "2": 0,
-    "1": 0
+  rating: {
+    totalRatingPoints: 0,
+    totalNumRatings: 0,
+    avgRating: 0,
+    ratingDistribution: {
+      "5": 0,
+      "4": 0,
+      "3": 0,
+      "2": 0,
+      "1": 0
+    }
   }
 };
 // TODO: evtl rating felder erst bei firebase cloud functions anlegen

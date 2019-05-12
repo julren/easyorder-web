@@ -9,7 +9,7 @@ const ValidationSchema = Yup.object().shape({
   description: Yup.string().required("Pflichtfeld")
 });
 
-const CategoryForm = props => {
+const MenuSectionForm = props => {
   return (
     <Segment clearing basic>
       <Form {...props} validationSchema={ValidationSchema}>
@@ -21,9 +21,9 @@ const CategoryForm = props => {
   );
 };
 
-CategoryForm.propTypes = {
+MenuSectionForm.propTypes = {
   initialValues: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired
 };
 
-export default CategoryForm;
+export default MenuSectionForm;

@@ -1,12 +1,12 @@
 import React from "react";
 import { Modal } from "semantic-ui-react";
-import CategoryForm from "./categoryForm";
+import MenuSectionForm from "./MenuSectionForm";
 
-const EditCategoryModal = props => {
-  const { open, onClose, categoryDoc } = props;
+const EditMenuSectionModal = props => {
+  const { open, onClose, menuSectionDoc } = props;
 
   const handleSubmit = async (values, formikApi) => {
-    categoryDoc.ref
+    menuSectionDoc.ref
       .set(values)
       .then(() => {
         formikApi.setSubmitting(false);
@@ -26,8 +26,8 @@ const EditCategoryModal = props => {
       </Modal.Header>
       <Modal.Content>
         <Modal.Description>
-          <CategoryForm
-            initialValues={categoryDoc.data()}
+          <MenuSectionForm
+            initialValues={menuSectionDoc.data()}
             onSubmit={handleSubmit}
           />
         </Modal.Description>
@@ -36,4 +36,4 @@ const EditCategoryModal = props => {
   );
 };
 
-export default EditCategoryModal;
+export default EditMenuSectionModal;

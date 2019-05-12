@@ -2,57 +2,72 @@ import React, { Component } from "react";
 import { db, firebase } from "../config/firebase";
 
 const RestaurantContext = React.createContext("restaurant");
+const RestaurantContextConsumer = RestaurantContext.Consumer;
 
 class RestaurantContextWrapper extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      restaurantID: "",
-      setRestaurantId: this.setRestaurantId,
-      clearRestaurantId: this.clearRestaurantId
+      loading: true,
+      user: undefined,
+      restaurantDoc: { undefined }
     };
   }
-
-  setRestaurantID = restaurantID => {
-    this.setState({ restaurantID });
-  };
 
   clearRestaurantID = () => {
     this.setState({ restaurantID: "" });
   };
 
-  getRestaurantForUser = async () => {
-    await db
-      .collection("restaurants")
-      .where("authorID", "==", firebase.auth().currentUser.uid)
+  getCategories = restaurantDoc => {
+    restaurantDoc
+      .collection("categories")
       .get()
       .then(querySnapshot => {
-        if (querySnapshot.empty) {
-          console.log(
-            "No restaurants for user uid yet",
-            firebase.auth().currentUser.uid
-          );
-          return;
-        } else {
-          let docs = [];
-          querySnapshot.forEach(doc => {
-            docs.push(doc);
-          });
-
-          console.log("Found restaurant: " + docs[0].id);
-
-          this.setRestaurantID(docs[0].id);
-          return;
-        }
-      })
-      .catch(error => {
-        console.error("Error getting document: ", error);
+        return querySnapshot.docs;
       });
   };
 
-  componentDidMount() {
-    this.getRestaurantForUser();
+  getRestaurantForUser = async () => {
+    console.log(
+      "firebase.auth().currentUser.uid",
+      firebase.auth().currentUser.uid
+    );
+    return db
+      .collection("restaurants")
+      .doc(firebase.auth().currentUser.uid)
+      .get()
+      .then(doc => {
+        if (!doc.exists) {
+          console.log(
+            "No restaurants found for for uid",
+            firebase.auth().currentUser.uid
+          );
+        } else {
+          console.log("found restaurant", doc.data());
+          return doc;
+        }
+      });
+  };
+
+  async componentDidMount() {
+    console.log("Contetx componentDidMount");
+    await firebase.auth().onAuthStateChanged(async user => {
+      console.log("Contetx onAuthStateChanged", user);
+
+      let restaurantDoc = undefined;
+
+      if (user) {
+        console.log("getting restaurantDoc");
+        restaurantDoc = await this.getRestaurantForUser();
+      }
+      console.log("Contetx componentDidMount", restaurantDoc);
+      this.setState({
+        user: user,
+        restaurantDoc: restaurantDoc,
+        loading: false
+      });
+    });
   }
 
   render() {
@@ -63,5 +78,5 @@ class RestaurantContextWrapper extends Component {
     );
   }
 }
-export { RestaurantContext };
+export { RestaurantContext, RestaurantContextConsumer };
 export default RestaurantContextWrapper;

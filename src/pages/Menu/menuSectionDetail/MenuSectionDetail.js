@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Header, Button, Table, Container, Segment } from "semantic-ui-react";
-import { db } from "../../../config/firebase";
-import CreateMenuItemModal from "./Modals/createMenuItemModal";
-import MenuItemsListItem from "./menuItemsListItem";
-import EditMenuItemModal from "./Modals/editMenuItemModal";
+import { db, firebase } from "../../../config/firebase";
+import CreateMenuItemModal from "../modals/CreateMenuItemModal";
+import MenuItemsListItem from "./MenuItemsListItem";
+import EditMenuItemModal from "../modals/EditMenuItemModal";
+import Restaurant from "../../restaurant/Resturant";
+import MenuSectionInfos from "./MenuSectionInfos";
 
-class MenuItemsList extends Component {
+class MenuSectionDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,33 +23,56 @@ class MenuItemsList extends Component {
     this.getMenuItemDocs();
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
-      this.setState({ loading: true, menuItemDocs: [] });
+      this.setState({ menuItemDocs: [], loading: true });
       this.getMenuItemDocs();
     }
   }
 
-  handleModalOpen = () => {
-    this.setState({ createMenuItemModalOpen: true });
+  openCreateMenuItemModal = () => {
+    this.setState({
+      createMenuItemModalOpen: true
+    });
   };
-
-  handleModalClose = () => {
+  closeCreateMenuItemModal = () => {
     this.setState({ createMenuItemModalOpen: false });
     this.getMenuItemDocs();
   };
 
-  handleEditMenuItemModalOpen = index => {
-    this.setState({ editMenuItemModalOpenIndex: index });
+  openEditMenuItemModal = editMenuItemModalOpenIndex => {
+    this.setState({
+      editMenuItemModalOpenIndex: editMenuItemModalOpenIndex
+    });
   };
 
-  handleEditMenuItemModalClose = () => {
+  closeEditMenuItemModal = () => {
     this.setState({ editMenuItemModalOpenIndex: null });
     this.getMenuItemDocs();
+  };
+
+  getMenuItemDocs = () => {
+    this.props.selectedMenuSectionDoc.ref
+      .collection("menuItems")
+      .get()
+      .then(querySnapshot => {
+        let menuItemDocs = [];
+
+        if (querySnapshot.empty) {
+          console.log(
+            "No menuItems for menuSection ",
+            this.props.selectedMenuSectionDoc.data().name
+          );
+        } else {
+          if (this._isMounted) {
+            menuItemDocs = querySnapshot.docs;
+          }
+        }
+        this.setState({ loading: false, menuItemDocs: menuItemDocs });
+      })
+      .catch(error => {
+        console.error("Error getting document: ", error);
+      });
   };
 
   onDelete = doc => {
@@ -56,30 +81,6 @@ class MenuItemsList extends Component {
       .delete()
       .then(this.getMenuItemDocs())
       .catch(error => console.error(error));
-  };
-
-  getMenuItemDocs = () => {
-    db.collection("menuItems")
-      .where("categoryID", "==", this.props.categoryID)
-      .get()
-      .then(querySnapshot => {
-        if (querySnapshot.empty) {
-          console.log("No menuItems for categoryID ", this.props.categoryID);
-        } else {
-          let menuItemDocs = [];
-
-          querySnapshot.forEach(doc => {
-            menuItemDocs.push(doc);
-          });
-          if (this._isMounted) {
-            this.setState({ menuItemDocs: menuItemDocs });
-          }
-        }
-        this.setState({ loading: false });
-      })
-      .catch(error => {
-        console.error("Error getting document: ", error);
-      });
   };
 
   renderMenuItemTable = () => {
@@ -104,7 +105,7 @@ class MenuItemsList extends Component {
               <React.Fragment key={index}>
                 <MenuItemsListItem
                   menuItemDoc={doc}
-                  onEdit={() => this.handleEditMenuItemModalOpen(index)}
+                  onEdit={() => this.openEditMenuItemModal(index)}
                   onDelete={() => this.onDelete(doc)}
                 />
 
@@ -112,7 +113,7 @@ class MenuItemsList extends Component {
                   menuItemDoc={doc}
                   categoryID={this.props.categoryID}
                   open={this.state.editMenuItemModalOpenIndex === index}
-                  onClose={this.handleEditMenuItemModalClose}
+                  onClose={this.closeEditMenuItemModal}
                 />
               </React.Fragment>
             ))}
@@ -123,16 +124,20 @@ class MenuItemsList extends Component {
   };
 
   render() {
-    const { handleModalOpen } = this;
-    const { categoryName } = this.props;
+    const {
+      onDataChange,
+      selectedMenuSectionDoc,
+      menuSectionDocs
+    } = this.props;
 
     return (
       <React.Fragment>
-        <Segment basic>
-          <Button basic content="Kategorie löschen" floated="right" />
-          <Button basic content="Kategorie bearbeiten" floated="right" />
-        </Segment>
-        <Segment basic loading={this.state.loading}>
+        <MenuSectionInfos
+          selectedMenuSectionDoc={selectedMenuSectionDoc}
+          onDataChange={onDataChange}
+        />
+
+        <Segment basic attached loading={this.state.loading}>
           {this.renderMenuItemTable()}
         </Segment>
         <Segment basic clearing>
@@ -141,18 +146,19 @@ class MenuItemsList extends Component {
             icon="plus"
             content="Gericht hinzufügen"
             floated="right"
-            onClick={handleModalOpen}
+            onClick={() => this.openCreateMenuItemModal()}
           />
         </Segment>
 
         <CreateMenuItemModal
-          categoryID={this.props.categoryID}
+          menuSectionDocs={menuSectionDocs}
+          selectedMenuSectionDoc={selectedMenuSectionDoc}
           open={this.state.createMenuItemModalOpen}
-          onClose={this.handleModalClose}
+          onClose={this.closeCreateMenuItemModal}
         />
       </React.Fragment>
     );
   }
 }
 
-export default MenuItemsList;
+export default MenuSectionDetail;

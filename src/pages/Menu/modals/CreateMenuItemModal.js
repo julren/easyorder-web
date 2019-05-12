@@ -1,48 +1,53 @@
 import React from "react";
 import { Modal } from "semantic-ui-react";
-import { firebase, firebaseMenuItems } from "../../../../config/firebase";
-import MenuItemForm from "./menuItemForm";
-import StorageHandler from "../../../../components/FormHelper/storageHandler";
+import MenuItemForm from "./MenuItemForm";
+import storageHandler from "../../../components/formHelper/storageHandler";
 
 const CreateMenuItemModal = props => {
-  const { categoryID, open, onClose } = props;
+  const { selectedMenuSectionDoc, menuSectionDocs, open, onClose } = props;
 
   const handleSubmit = async (values, formikApi) => {
     const { photo } = values;
     const hasPhotoFile = photo instanceof Blob;
 
-    const authorID = firebase.auth().currentUser.uid;
-    const newMenuItemDocument = firebaseMenuItems.doc();
+    const newMenuItemDocument = selectedMenuSectionDoc.ref
+      .collection("menuItems")
+      .doc();
 
     let dataToSubmit = values;
+    dataToSubmit.price = parseFloat(values.price);
 
     if (hasPhotoFile) {
       // Upload big image (600px)
       const fileName = `menuItem-${newMenuItemDocument.id}`;
-      await StorageHandler.uploadImage({
-        file: photo,
-        fileName: fileName,
-        downScalingMaxWidth: 600
-      }).then(downloadURL => {
-        dataToSubmit.photo = downloadURL;
-      });
+      await storageHandler
+        .uploadImage({
+          file: photo,
+          fileName: fileName,
+          downScalingMaxWidth: 600
+        })
+        .then(downloadURL => {
+          dataToSubmit.photo = downloadURL;
+        });
 
       // Upload Thumbnail (100px)
       const thumbFileName = `menuItem-${newMenuItemDocument.id}-thumb`;
-      await StorageHandler.uploadImage({
-        file: photo,
-        fileName: thumbFileName,
-        downScalingMaxWidth: 100
-      }).then(downloadURL => {
-        dataToSubmit.photoThumb = downloadURL;
-      });
+      await storageHandler
+        .uploadImage({
+          file: photo,
+          fileName: thumbFileName,
+          downScalingMaxWidth: 100
+        })
+        .then(downloadURL => {
+          dataToSubmit.photoThumb = downloadURL;
+        });
     }
+
+    console.log("CreateMenuItemModal handleSubmit dataToSubmit", dataToSubmit);
 
     newMenuItemDocument
       .set({
-        authorID: authorID,
-        categoryID: categoryID,
-        ...values
+        ...dataToSubmit
       })
       .then(() => {
         formikApi.setSubmitting(false);

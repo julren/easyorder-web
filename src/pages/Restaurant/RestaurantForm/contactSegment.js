@@ -8,10 +8,10 @@ const ContactSegment = props => {
       <Header dividing as="h3" color="blue">
         Kontakt
       </Header>
-      <Input label="Straße" name="adress.street" />
+      <Input label="Straße" name="address.street" />
       <Form.Group widths="2">
-        <Input label="PLZ" name="adress.postcode" />
-        <Input label="Ort" name="adress.city" />
+        <Input label="PLZ" name="address.postcode" />
+        <Input label="Ort" name="address.city" />
       </Form.Group>
       <Form.Group widths="2">
         <Input label="Telefon" name="contactInfo.phone" />

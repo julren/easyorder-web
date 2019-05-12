@@ -1,17 +1,17 @@
 import React from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 
-import PrivateRoute from "./privateRoute";
+import PrivateRoute from "./PrivateRoute";
 
-import Home from "../pages/Home/Home";
-import Account from "../pages/Account/Account";
+import Home from "../pages/home/Home";
+import Account from "../pages/account/Account";
 
-import Restaurant from "../pages/Restaurant/Resturant";
-import Menu from "../pages/Menu/Menu";
-import Tables from "../pages/Tables/Tables";
-import Report from "../pages/Report/Report";
-import LiveOrders from "../pages/Orders/LiveOrders/LiveOrders";
-import AllOrders from "../pages/Orders/AllOrders/AllOrders";
+import Restaurant from "../pages/restaurant/Resturant";
+import Menu from "../pages/menu/Menu";
+import Tables from "../pages/tables/Tables";
+import Report from "../pages/report/Report";
+import LiveOrders from "../pages/orders/liveOrders/LiveOrders";
+import AllOrders from "../pages/orders/allOrders/AllOrders";
 
 const Routes = props => {
   return (

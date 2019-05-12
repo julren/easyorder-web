@@ -20,8 +20,7 @@ db.settings({
 });
 
 const firebaseRestaurants = db.collection("restaurants");
-const firebaseCategories = db.collection("categories");
-const firebaseMenuItems = db.collection("menuItems");
+
 const firebaseOrders = db.collection("orders");
 const fireBaseTables = db.collection("tables");
 
@@ -30,8 +29,6 @@ export {
   db,
   storage,
   firebaseRestaurants,
-  firebaseMenuItems,
   firebaseOrders,
-  firebaseCategories,
   fireBaseTables
 };

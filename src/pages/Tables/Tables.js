@@ -11,7 +11,7 @@ import {
   Segment,
   Loader
 } from "semantic-ui-react";
-import TablesTable from "./TablesTable/TablesTable";
+import TablesTable from "./tablesTable/TablesTable";
 import CreateTableModal from "./CreateTableModal";
 import { db, firebase } from "../../config/firebase";
 
@@ -29,11 +29,12 @@ class Tables extends Component {
     this.getTables();
   }
 
-  //TODO: Tische Tabelle werden nicht aktualisiert nachdem ein Tisch bearbeitet wurde
   getTables = () => {
-    console.log("getTAbel");
-    db.collection("tables")
-      .where("restaurantID", "==", firebase.auth().currentUser.uid)
+    this.setState({ loading: true });
+    console.log("getTables");
+    db.collection("restaurants")
+      .doc(firebase.auth().currentUser.uid)
+      .collection("tables")
       .get()
       .then(querySnapshot => {
         if (querySnapshot.empty) {
@@ -41,13 +42,12 @@ class Tables extends Component {
             "No tables for restaurantID ",
             firebase.auth().currentUser.uid
           );
-        } else {
-          let tableDocs = [];
-          querySnapshot.forEach(doc => {
-            tableDocs.push(doc);
-          });
           this.setState({
-            tableDocs: tableDocs,
+            loading: false
+          });
+        } else {
+          this.setState({
+            tableDocs: querySnapshot.docs,
             loading: false
           });
         }

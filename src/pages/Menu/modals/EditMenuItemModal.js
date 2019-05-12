@@ -1,8 +1,8 @@
 import React from "react";
 import { Modal } from "semantic-ui-react";
-import MenuItemForm from "./menuItemForm";
+import MenuItemForm from "./MenuItemForm";
 import PropTypes from "prop-types";
-import StorageHandler from "../../../../components/FormHelper/storageHandler";
+import storageHandler from "../../../components/formHelper/storageHandler";
 
 const EditMenuItemModal = props => {
   const { open, onClose, menuItemDoc } = props;
@@ -12,15 +12,18 @@ const EditMenuItemModal = props => {
     const hasPhotoFile = photo instanceof Blob;
 
     let dataToSubmit = values;
+    dataToSubmit.price = parseFloat(values.price);
 
     if (hasPhotoFile) {
       const fileName = `menuItem-${menuItemDoc.id}`;
-      await StorageHandler.uploadImage({
-        file: photo,
-        fileName: fileName
-      }).then(downloadURL => {
-        dataToSubmit.photo = downloadURL;
-      });
+      await storageHandler
+        .uploadImage({
+          file: photo,
+          fileName: fileName
+        })
+        .then(downloadURL => {
+          dataToSubmit.photo = downloadURL;
+        });
     }
 
     menuItemDoc.ref

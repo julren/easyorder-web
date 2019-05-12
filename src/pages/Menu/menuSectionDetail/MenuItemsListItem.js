@@ -24,7 +24,10 @@ class MenuItemsListItem extends Component {
           type="button"
           color="blue"
           icon="pencil"
-          onClick={onEdit}
+          onClick={() => {
+            this.setState({ hovering: false });
+            onEdit();
+          }}
         />
         <Button
           compact
@@ -32,7 +35,10 @@ class MenuItemsListItem extends Component {
           type="button"
           color="red"
           icon="trash"
-          onClick={onDelete}
+          onClick={() => {
+            this.setState({ hovering: false });
+            onDelete();
+          }}
         />
       </React.Fragment>
     );

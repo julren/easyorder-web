@@ -3,6 +3,7 @@ import { Header } from "semantic-ui-react";
 import { Form, Button } from "formik-semantic-ui";
 import * as Yup from "yup";
 import AuthLayout from "../hoc/authLayout";
+import { firebase } from "../../../config/firebase";
 const ValidationSchema = Yup.object().shape({
   email: Yup.string()
     .email("E-mail is not valid!")
@@ -14,10 +15,13 @@ const ValidationSchema = Yup.object().shape({
 });
 
 const handleSubmit = (vaules, formikApi) => {
-  console.log("values", vaules);
-  setTimeout(() => {
-    formikApi.setSubmitting(false);
-  }, 2000);
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(vaules.email, vaules.password)
+    .then(value => {
+      formikApi.setSubmitting(false);
+    })
+    .catch(function(error) {});
 };
 
 const SignUp = props => {

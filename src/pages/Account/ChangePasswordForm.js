@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button } from "formik-semantic-ui";
 import * as Yup from "yup";
-import { Header, Container, Segment } from "semantic-ui-react";
+import { Header, Container } from "semantic-ui-react";
 import { firebase } from "../../config/firebase";
 
 const ValidationSchema = Yup.object().shape({

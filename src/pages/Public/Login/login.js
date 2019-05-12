@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import LoginForm from "./LoginForm/loginform";
+import LoginForm from "./loginForm/Loginform";
 import AuthLayout from "../hoc/authLayout";
 import { Header } from "semantic-ui-react";
 

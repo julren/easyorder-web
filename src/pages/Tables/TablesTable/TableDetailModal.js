@@ -28,12 +28,6 @@ const TableDetailModal = props => {
       <Modal.Content>
         <TableForm initialValues={tableDoc.data()} onSubmit={handleSubmit} />
       </Modal.Content>
-
-      <Modal.Actions>
-        <Button primary onClick={onClose}>
-          Fertig
-        </Button>
-      </Modal.Actions>
     </Modal>
   );
 };

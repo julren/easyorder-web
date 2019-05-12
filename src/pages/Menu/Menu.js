@@ -3,47 +3,47 @@ import {
   Header,
   Container,
   Grid,
-  Menu as MenuNav,
   Segment,
-  Loader,
-  Button,
-  Icon
+  Icon,
+  Button
 } from "semantic-ui-react";
-import CategoriesList from "./categoriesList";
-import MenuItemsList from "./menuItemsList";
 import { db, firebase } from "../../config/firebase";
+import { withRestaurantContext } from "../../contexts/withRestaurantContext";
+import WithLoadingSpinner from "../../components/WithLoadingSpinner";
+import MenuSectionsList from "./MenuSectionsList";
+import MenuSectionDetail from "./menuSectionDetail/MenuSectionDetail";
 
 class Menu extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
-      selectedCategoryDoc: undefined,
-      categoryDocs: []
+      selectedMenuSectionDoc: undefined,
+      menuSectionDocs: []
     };
   }
   componentDidMount() {
-    this.getMenuCategories();
+    this.getMenuSections();
   }
 
-  getMenuCategories = () => {
-    db.collection("categories")
-      .where("authorID", "==", firebase.auth().currentUser.uid)
+  getMenuSections = () => {
+    db.collection("restaurants")
+      .doc(firebase.auth().currentUser.uid)
+      .collection("menuSections")
       .get()
       .then(querySnapshot => {
         if (querySnapshot.empty) {
-          console.log("No Categories for uid", firebase.auth().currentUser.uid);
+          console.log("No MenuSections");
+          this.setState({ loading: false, menuSectionDocs: [] });
         } else {
-          let categoryDocs = [];
-          querySnapshot.forEach(doc => {
-            categoryDocs.push(doc);
-          });
-
-          this.setState({
+          console.log(querySnapshot.docs);
+          this.setState(prevState => ({
             loading: false,
-            categoryDocs: categoryDocs,
-            selectedCategoryDoc: categoryDocs[0]
-          });
+            menuSectionDocs: querySnapshot.docs,
+            selectedMenuSectionDoc: prevState.selectedMenuSectionDoc
+              ? prevState.selectedMenuSectionDoc
+              : querySnapshot.docs[0]
+          }));
         }
       })
       .catch(error => {
@@ -51,27 +51,14 @@ class Menu extends Component {
       });
   };
 
-  onSelectCategory = categoryDoc => {
+  onSelectMenuSection = menuSectionDoc => {
     this.setState({
-      selectedCategoryDoc: categoryDoc
+      selectedMenuSectionDoc: menuSectionDoc
     });
   };
 
-  onOpenCreateCategoryModal = () => {};
-
-  // renderMenuItemsList() {
-  //   return (
-  //     <MenuItemsList
-  //       categoryID={this.state.selectedCategoryData.id}
-  //       categoryName={this.state.selectedCategoryData.data().name}
-  //     />
-  //   );
-  // }
-
   render() {
-    const { categoryDocs, selectedCategoryDoc, loading } = this.state;
-
-    if (loading) return <Loader size="big" active inline="centered" />;
+    const { menuSectionDocs, selectedMenuSectionDoc, loading } = this.state;
 
     return (
       <Container>
@@ -80,71 +67,31 @@ class Menu extends Component {
           <Header.Subheader>Kategorien und Gerichte verwalten</Header.Subheader>
         </Header>
 
-        <Grid>
-          <Grid.Column width={4}>
-            <MenuNav fluid vertical tabular>
-              {categoryDocs.map(categoryDoc => (
-                <MenuNav.Item
-                  key={categoryDoc.id}
-                  name={categoryDoc.data().name}
-                  active={selectedCategoryDoc.id === categoryDoc.id}
-                  onClick={() => this.onSelectCategory(categoryDoc)}
-                />
-              ))}
-            </MenuNav>
-
-            <Button
-              primary
-              icon="plus"
-              content="Kategorie hinzufügen"
-              onClick={this.onOpenCreateCategoryModal}
-            />
-          </Grid.Column>
-
-          <Grid.Column stretched width={12}>
-            <Segment attached="top" color="blue" inverted>
-              <Header
-                content={selectedCategoryDoc.data().name}
-                floated="left"
-              />
-              <Icon name="trash alternate outline" />
-            </Segment>
-
-            <Segment attached basic>
-              <MenuItemsList categoryID={selectedCategoryDoc.id} />
-            </Segment>
-          </Grid.Column>
-        </Grid>
-
-        {/* <Grid>
-          <Grid.Row>
+        <WithLoadingSpinner loading={loading}>
+          <Grid>
             <Grid.Column width={4}>
-              <MenuNav>
-                {categoryDocs.map(categoryDoc => {
-                  const { name } = categoryDoc.data();
-                  const id = categoryDoc.id;
-                  const { activeCategoryId } = this.state;
-
-                  return (
-                    <MenuNav.Item
-                      name={name}
-                      active={activeCategoryId === id}
-                      onClick={categoryDoc =>
-                        this.onSelectCategory(categoryDoc)
-                      }
-                    />
-                  );
-                })}
-              </MenuNav>
-
-              <CategoriesList onCategorySelect={this.onSelectCategory} />
+              <MenuSectionsList
+                menuSectionDocs={menuSectionDocs}
+                selectedMenuSectionDoc={selectedMenuSectionDoc}
+                onSelectMenuSection={this.onSelectMenuSection}
+                onDataChange={this.getMenuSections}
+              />
             </Grid.Column>
-            <Grid.Column width={12}>{this.renderMenuItemsList()}</Grid.Column>
-          </Grid.Row>
-        </Grid> */}
+
+            {selectedMenuSectionDoc && (
+              <Grid.Column stretched width={12}>
+                <MenuSectionDetail
+                  menuSectionDocs={menuSectionDocs}
+                  selectedMenuSectionDoc={selectedMenuSectionDoc}
+                  onDataChange={this.getMenuSections}
+                />
+              </Grid.Column>
+            )}
+          </Grid>
+        </WithLoadingSpinner>
       </Container>
     );
   }
 }
 
-export default Menu;
+export default withRestaurantContext(Menu);

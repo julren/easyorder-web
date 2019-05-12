@@ -1,9 +1,9 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-import Landing from "./Landing/landing";
-import Login from "./Login/login";
-import Signup from "./Signup/signup";
+import Landing from "./landing/landing";
+import Login from "./login/Login";
+import Signup from "./signup/Signup";
 
 const Routes = props => {
   return (

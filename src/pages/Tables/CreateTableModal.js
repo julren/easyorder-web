@@ -1,18 +1,18 @@
 import React from "react";
 import { Modal } from "semantic-ui-react";
 import TableForm from "./TableForm";
-import { fireBaseTables, firebase } from "../../config/firebase";
+import { db, firebase } from "../../config/firebase";
 
 const CreateTableModal = props => {
   const { open, onClose } = props;
 
   const handleSubmit = (values, formikApi) => {
     console.log("handleSubmit", values);
-    const authorID = firebase.auth().currentUser.uid;
 
-    fireBaseTables
+    db.collection("restaurants")
+      .doc(firebase.auth().currentUser.uid)
+      .collection("tables")
       .add({
-        restaurantID: authorID,
         ...values
       })
       .then(() => {

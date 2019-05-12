@@ -93,12 +93,18 @@ const styles = StyleSheet.create({
 
 // Create Document Component
 const TableQrPdfDocument = props => {
-  const { tableDoc } = props;
-
-  const tableID = tableDoc.id;
+  const { tableDoc, restaurantDoc } = props;
   const { name: tableName } = tableDoc.data();
+  const { name: restaurantName } = restaurantDoc.data();
 
-  const qr_png = qr.imageSync(tableID, {
+  const qrContent = JSON.stringify({
+    restaurantId: restaurantDoc.id,
+    restaurantName: restaurantName,
+    tableId: tableDoc.id,
+    tableName: tableName
+  });
+
+  const qr_png = qr.imageSync(qrContent, {
     type: "png",
     size: 60,
     margin: 0
@@ -142,7 +148,9 @@ const TableQrPdfDocument = props => {
           </View>
         </View>
         <View style={styles.footer}>
-          <Text style={styles.footerText}>{`${tableName} | ${tableID}`}</Text>
+          <Text style={styles.footerText}>{`${restaurantName} | ${
+            restaurantDoc.id
+          } | ${tableName} | ${tableDoc.id}`}</Text>
         </View>
       </Page>
     </Document>

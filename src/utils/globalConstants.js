@@ -5,7 +5,7 @@ const WEEKDAYS = [
   },
   {
     text: "Dienstag",
-    value: "thuesday"
+    value: "tuesday"
   },
   {
     text: "Mittwoch",
@@ -32,15 +32,15 @@ const WEEKDAYS = [
 const PRICECLASSES = [
   {
     text: "Günstig",
-    value: "1"
+    value: "cheap"
   },
   {
     text: "Durchschnittlich",
-    value: "2"
+    value: "moderate"
   },
   {
     text: "Gehoben",
-    value: "3"
+    value: "premium"
   }
 ];
 

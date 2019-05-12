@@ -1,7 +1,7 @@
 import React from "react";
 import { Header, Container, Grid } from "semantic-ui-react";
 import { Field } from "formik";
-import ImageUploadField from "../../../components/FormHelper/imageUploadField";
+import ImageUploadField from "../../../components/formHelper/imageUploadField";
 
 const MediaSegment = () => {
   return (

@@ -8,7 +8,7 @@ let restaurant = {
     toDay: "Friday",
     toTime: "22:00"
   },
-  adress: {
+  address: {
     street: "EinWeg 2",
     city: "Landshut",
     zip: "84030"
