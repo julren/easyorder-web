@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Segment } from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 import moment from "moment";
 
 const OrderMetaDataSummary = props => {
@@ -38,27 +38,20 @@ const OrderMetaDataSummary = props => {
           <Table.Cell>
             <b>Zahlungsmethode</b>
           </Table.Cell>
-          <Table.Cell textAlign="left">{paymentMethod}</Table.Cell>
+          <Table.Cell textAlign="left">{paymentMethod.name}</Table.Cell>
         </Table.Row>
 
         <Table.Row>
           <Table.Cell>
             <b>Tisch:</b>
           </Table.Cell>
-          <Table.Cell textAlign="left">{table}</Table.Cell>
+          <Table.Cell textAlign="left">{table ? table.name : 2}</Table.Cell>
 
           <Table.Cell>
-            <b>Zeitaufwand</b>
+            <b />
           </Table.Cell>
 
-          <Table.Cell textAlign="left">
-            {completedDate
-              ? moment(orderDate.toDate()).diff(
-                  completedDate.toDate(),
-                  "minutes"
-                )
-              : status}
-          </Table.Cell>
+          <Table.Cell textAlign="left" />
         </Table.Row>
       </Table.Body>
     </Table>

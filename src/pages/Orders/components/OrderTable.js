@@ -25,8 +25,8 @@ const OrderTable = props => {
       </Table.Header>
 
       <Table.Body>
-        {items.map(element => (
-          <Table.Row key={element.item.id}>
+        {items.map((element, index) => (
+          <Table.Row key={index}>
             <Table.Cell collapsing>
               <Image size="mini" src={element.item.photo} />
             </Table.Cell>
@@ -52,14 +52,14 @@ const OrderTable = props => {
       </Table.Body>
 
       <Table.Footer>
-        <Table.Row>
+        {/* <Table.Row>
           <Table.HeaderCell colSpan="4" textAlign="right">
             Mwst
           </Table.HeaderCell>
           <Table.HeaderCell collapsing textAlign="right">
             {parseFloat(mwst).toFixed(2)}
           </Table.HeaderCell>
-        </Table.Row>
+        </Table.Row> */}
         <Table.Row>
           <Table.HeaderCell colSpan="4" textAlign="right">
             <b>Gesamt</b>
