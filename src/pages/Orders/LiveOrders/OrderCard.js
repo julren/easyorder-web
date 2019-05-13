@@ -120,7 +120,7 @@ class OrderCard extends Component {
               </List.Content>
               <List.Content>
                 <List.Header as="h3">
-                  #{table}
+                  #{table ? table.name : "Tisch 2"}
                   <span style={{ marginLeft: 10 }}>
                     <Icon
                       name={

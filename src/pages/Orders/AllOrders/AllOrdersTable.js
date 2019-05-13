@@ -84,7 +84,7 @@ class AllOrdersTable extends Component {
       const id = o.id;
       const {
         status,
-        table,
+        table: { name: tableName },
         grandTotal,
         orderDate,
         customerID,
@@ -93,7 +93,7 @@ class AllOrdersTable extends Component {
       const searchString =
         id +
         statusDisplayNames[status] +
-        table +
+        tableName +
         grandTotal +
         customerID +
         paymentMethod +

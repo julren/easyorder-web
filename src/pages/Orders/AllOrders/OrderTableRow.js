@@ -34,7 +34,7 @@ class OrderTableRow extends Component {
             {moment(orderDate.toDate()).format("DD.MM.YYYY, hh:mm")}
           </Table.Cell>
           <Table.Cell>{statusDisplayNames[status]}</Table.Cell>
-          <Table.Cell>{table}</Table.Cell>
+          <Table.Cell>{table ? table.name : "Tisch 2"}</Table.Cell>
           <Table.Cell>{parseFloat(grandTotal).toFixed(2)}€</Table.Cell>
           <Table.Cell collapsing textAlign="right">
             <Button
