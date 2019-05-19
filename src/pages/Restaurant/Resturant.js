@@ -152,30 +152,27 @@ class Restaurant extends Component {
           Restaurant
           <Header.Subheader>Angaben zum Restaurant bearbeiten</Header.Subheader>
         </Header>
-        <WithLoadingSpinner loading={this.state.loading}>
+        <Segment loading={this.state.loading} clearing basic>
           <Form
+            size="tiny"
             enableReinitialize={true}
             initialValues={this.state.formValues}
             onSubmit={this.handleSubmit}
             // validationSchema={ValidationSchema}
             render={({ values }) => (
-              <Container>
-                <Form.Children>
-                  <AboutRestaurantSegment />
-                  <BusinessHoursSegment formValues={values} />
-                  <ContactSegment />
-                  <MediaSegment />
-                  <Divider hidden />
-                  <Segment basic>
-                    <Button.Submit floated="right">Speichern</Button.Submit>
-                  </Segment>
-
-                  <ShowPropsInUI data={values} />
-                </Form.Children>
-              </Container>
+              <Form.Children>
+                <AboutRestaurantSegment />
+                <BusinessHoursSegment formValues={values} />
+                <ContactSegment />
+                <MediaSegment />
+                <Divider hidden />
+                <Segment basic>
+                  <Button.Submit floated="right">Speichern</Button.Submit>
+                </Segment>
+              </Form.Children>
             )}
           />
-        </WithLoadingSpinner>
+        </Segment>
       </Container>
     );
   }

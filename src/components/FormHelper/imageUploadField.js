@@ -18,26 +18,18 @@ const ImageUploadField = ({ form, field }) => {
 
   const renderDeletableImage = () => {
     return (
-      <Segment basic>
+      <Segment basic compact>
         {isFile && <LocalImageThumb file={fieldValue} />}
 
-        {isURL && (
-          <Image
-            src={fieldValue}
-            centered
-            style={{
-              objectFit: "contain"
-            }}
-          />
-        )}
+        {isURL && <Image src={fieldValue} size="medium" />}
 
         <Button
-          fluid
           type="button"
           size="mini"
-          content="Bild löschen"
+          content="Löschen"
           color="red"
           basic
+          style={{ marginTop: 5 }}
           onClick={onDelete}
         />
       </Segment>
@@ -45,7 +37,7 @@ const ImageUploadField = ({ form, field }) => {
   };
 
   return (
-    <Segment basic>
+    <>
       {fieldIsEmpty && (
         <ImageDropZone
           onChange={newValue => {
@@ -55,7 +47,7 @@ const ImageUploadField = ({ form, field }) => {
       )}
 
       {!fieldIsEmpty && renderDeletableImage()}
-    </Segment>
+    </>
   );
 };
 

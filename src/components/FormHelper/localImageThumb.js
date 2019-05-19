@@ -38,8 +38,7 @@ export default class LocalImageThumb extends React.Component {
     return (
       <Image
         src={thumb}
-        fluid
-        centered
+        size="medium"
         style={{
           objectFit: "contain"
         }}

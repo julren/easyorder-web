@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button } from "formik-semantic-ui";
 import * as Yup from "yup";
-import { Header, Container } from "semantic-ui-react";
+import { Header, Container, Segment } from "semantic-ui-react";
 import { firebase } from "../../config/firebase";
 
 const ValidationSchema = Yup.object().shape({
@@ -25,28 +25,29 @@ const ChangePasswordForm = () => {
   };
 
   return (
-    <Container style={{ marginBottom: "5em " }}>
-      <Header dividing as="h3" color="blue">
-        Passwort ändern
-      </Header>
-
-      <Form
-        onSubmit={onSubmit}
-        validationSchema={ValidationSchema}
-        schema={{
-          password: {
-            label: "Password",
-            type: "password"
-          },
-          passwordConfirm: {
-            label: "Passwort bestätigen",
-            type: "password"
-          }
-        }}
-      >
-        <Button.Submit floated="right">Speichern</Button.Submit>
-      </Form>
-    </Container>
+    <Segment.Group>
+      <Segment color="blue" inverted>
+        <Header as="h3">Passwort ändern</Header>
+      </Segment>
+      <Segment clearing>
+        <Form
+          onSubmit={onSubmit}
+          validationSchema={ValidationSchema}
+          schema={{
+            password: {
+              label: "Password",
+              type: "password"
+            },
+            passwordConfirm: {
+              label: "Passwort bestätigen",
+              type: "password"
+            }
+          }}
+        >
+          <Button.Submit floated="right">Speichern</Button.Submit>
+        </Form>
+      </Segment>
+    </Segment.Group>
   );
 };
 

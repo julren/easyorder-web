@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Header, Container } from "semantic-ui-react";
+import { Header, Container, Segment } from "semantic-ui-react";
 import ChangeEmailForm from "./ChangePasswordForm";
 import ChangePasswordForm from "./ChangeEmailForm";
 
@@ -21,7 +21,6 @@ class Account extends Component {
           content="Account"
           subheader="Account verwalten: Passwort & Email ändern"
         />
-
         <ChangeEmailForm />
         <ChangePasswordForm />
       </Container>

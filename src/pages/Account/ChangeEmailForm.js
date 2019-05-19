@@ -24,24 +24,26 @@ const ChangeEmailForm = () => {
   };
 
   return (
-    <Container style={{ marginBottom: "5em " }}>
-      <Header dividing as="h3" color="blue">
-        Email ändern
-      </Header>
-      <Form
-        initialValues={{ email: firebase.auth().currentUser.email }}
-        onSubmit={onSubmit}
-        validationSchema={ValidationSchema}
-        schema={{
-          email: {
-            label: "Email",
-            type: "email"
-          }
-        }}
-      >
-        <Button.Submit floated="right">Speichern</Button.Submit>
-      </Form>
-    </Container>
+    <Segment.Group>
+      <Segment color="blue" inverted>
+        <Header as="h3">Email ändern</Header>
+      </Segment>
+      <Segment clearing>
+        <Form
+          initialValues={{ email: firebase.auth().currentUser.email }}
+          onSubmit={onSubmit}
+          validationSchema={ValidationSchema}
+          schema={{
+            email: {
+              label: "Email",
+              type: "email"
+            }
+          }}
+        >
+          <Button.Submit floated="right">Speichern</Button.Submit>
+        </Form>
+      </Segment>
+    </Segment.Group>
   );
 };
 
