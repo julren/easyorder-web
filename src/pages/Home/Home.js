@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Header } from "semantic-ui-react";
+import { Container, Header, Image } from "semantic-ui-react";
 import { db } from "../../config/firebase";
 
 class Home extends Component {
@@ -39,7 +39,16 @@ class Home extends Component {
   render() {
     return (
       <Container>
-        <Header as="h1" content="Willkommen bei Easy Order" />
+        <Header as="h1">
+          Willkommen bei Easy Order
+          <Header.Subheader>
+            Zeitgemäße Gastronomie für Ihr Unternehmen
+          </Header.Subheader>
+        </Header>
+        <Image
+          fluid
+          src={require("../tables/pdfGenerator/assets/qr-pinup-banner.jpg")}
+        />
       </Container>
     );
   }
