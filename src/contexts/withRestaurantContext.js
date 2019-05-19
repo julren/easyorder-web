@@ -14,6 +14,5 @@ export const withRestaurantContext = ChildComponent => {
       );
     }
   }
-
   return RestaurantContextConsumer;
 };

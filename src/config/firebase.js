@@ -24,11 +24,16 @@ const firebaseRestaurants = db.collection("restaurants");
 const firebaseOrders = db.collection("orders");
 const fireBaseTables = db.collection("tables");
 
+const firebaseRestaurantReviews = db.collection("restaurantReviews");
+const firebaseMenuItemReviews = db.collection("menuItemReviews");
+
 export {
   firebase,
   db,
   storage,
   firebaseRestaurants,
   firebaseOrders,
-  fireBaseTables
+  fireBaseTables,
+  firebaseRestaurantReviews,
+  firebaseMenuItemReviews
 };

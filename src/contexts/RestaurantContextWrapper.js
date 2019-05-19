@@ -11,6 +11,9 @@ class RestaurantContextWrapper extends Component {
     this.state = {
       loading: true,
       user: undefined,
+      orderDocs: [],
+      inProgressOrdersDocs: [],
+      readyForServingOrdersDocs: [],
       restaurantDoc: { undefined }
     };
   }
@@ -19,9 +22,18 @@ class RestaurantContextWrapper extends Component {
     this.setState({ restaurantID: "" });
   };
 
-  getCategories = restaurantDoc => {
+  getMenuSections = restaurantDoc => {
     restaurantDoc
-      .collection("categories")
+      .collection("menuSections")
+      .get()
+      .then(querySnapshot => {
+        return querySnapshot.docs;
+      });
+  };
+
+  getMenuItems = menuSectionDoc => {
+    menuSectionDoc.ref
+      .collection("menuItems")
       .get()
       .then(querySnapshot => {
         return querySnapshot.docs;
@@ -50,6 +62,23 @@ class RestaurantContextWrapper extends Component {
       });
   };
 
+  setUpOrderListener = () => {
+    db.collection("orders")
+      .where("restaurant.restaurantID", "==", firebase.auth().currentUser.uid)
+      .onSnapshot(querySnapshot => {
+        if (querySnapshot.empty) {
+          console.log(
+            "No orders for restaurantID ",
+            firebase.auth().currentUser.uid
+          );
+        } else {
+          this.setState({
+            orderDocs: querySnapshot.docs
+          });
+        }
+      });
+  };
+
   async componentDidMount() {
     console.log("Contetx componentDidMount");
     await firebase.auth().onAuthStateChanged(async user => {
@@ -60,8 +89,9 @@ class RestaurantContextWrapper extends Component {
       if (user) {
         console.log("getting restaurantDoc");
         restaurantDoc = await this.getRestaurantForUser();
+        this.setUpOrderListener();
       }
-      console.log("Contetx componentDidMount", restaurantDoc);
+
       this.setState({
         user: user,
         restaurantDoc: restaurantDoc,
