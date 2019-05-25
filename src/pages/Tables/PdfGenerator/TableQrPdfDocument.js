@@ -1,7 +1,5 @@
 import React from "react";
 
-import PropTypes from "prop-types";
-
 import {
   Page,
   Text,
@@ -11,10 +9,10 @@ import {
   StyleSheet
 } from "@react-pdf/renderer";
 import qr from "qr-image";
-import playStoreButtonImg from "./assets/get-it-on-google-play-button.png";
-import appStoreButtonImg from "./assets/get-it-on-app-store-button.png";
-import banner from "./assets/qr-pinup-banner.jpg";
-import logo from "./assets/logo.png";
+import playStoreButtonImg from "../../../assets/images/get-it-on-google-play-button.png";
+import appStoreButtonImg from "../../../assets/images/get-it-on-app-store-button.png";
+import banner from "../../../assets/images/qr-pinup-banner.jpg";
+import logo from "../../../assets/images/logo.png";
 
 // Create styles
 const styles = StyleSheet.create({

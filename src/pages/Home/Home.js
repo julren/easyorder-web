@@ -23,7 +23,7 @@ class Home extends Component {
         </Header>
         <Image
           fluid
-          src={require("../../../public/assets/home-restaurant-banner.jpg")}
+          src={require("../../assets/images/home-restaurant-banner.jpg")}
         />
       </Container>
     );
