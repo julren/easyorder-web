@@ -6,7 +6,8 @@ import { Segment } from "semantic-ui-react";
 
 const ValidationSchema = Yup.object().shape({
   name: Yup.string().required("Pflichtfeld"),
-  description: Yup.string().required("Pflichtfeld")
+  description: Yup.string().required("Pflichtfeld"),
+  orderNum: Yup.number()
 });
 
 const MenuSectionForm = props => {
@@ -15,6 +16,7 @@ const MenuSectionForm = props => {
       <Form {...props} validationSchema={ValidationSchema}>
         <Input type="text" name="name" label="Name" />
         <Input type="text" name="description" label="Beschreibung" />
+        <Input type="number" name="orderNum" label="Reihenfolgennummer" />
         <Button.Submit content="Speichern" floated="right" />
       </Form>
     </Segment>

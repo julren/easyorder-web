@@ -49,9 +49,6 @@ class TablesTableRow extends Component {
                         icon="qrcode"
                         basic
                         compact
-                        onClick={() => {
-                          console.log("ok");
-                        }}
                       />
                     )
                   }

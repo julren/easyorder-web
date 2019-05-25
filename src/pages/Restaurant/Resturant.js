@@ -9,6 +9,7 @@ import BusinessHoursSegment from "./restaurantForm/BusinessHoursSegment";
 import AboutRestaurantSegment from "./restaurantForm/AboutRestaurantSegment";
 import MediaSegment from "./restaurantForm/MediaSegment";
 import ContactSegment from "./restaurantForm/ContactSegment";
+import geohash from "ngeohash";
 
 import StorageHandler from "../../components/formHelper/storageHandler";
 import WithLoadingSpinner from "../../components/WithLoadingSpinner";
@@ -55,28 +56,16 @@ class Restaurant extends Component {
       });
   }
 
-  async createNewRestaurantDoc(data) {
+  async saveRestaurant(data) {
     await firebaseRestaurants
       .doc(firebase.auth().currentUser.uid)
-      .set(data)
-      .then(function(docRef) {
-        console.log("Document written with ID: ", docRef);
+      .set({ ...data }, { merge: true })
+      .then(() => {
+        console.log("Document written");
         return;
       })
       .catch(function(error) {
         console.error("Error adding document: ", error);
-      });
-  }
-
-  async updateRestaurantDoc(restaurantDoc, data) {
-    restaurantDoc.ref
-      .update(data)
-      .then(function() {
-        console.log("Updated successfully");
-        return;
-      })
-      .catch(function(error) {
-        console.error("Error updating document: ", error);
       });
   }
 
@@ -92,7 +81,7 @@ class Restaurant extends Component {
   };
 
   handleSubmit = async (values, formikApi) => {
-    console.log("handleSubmit formValues", values);
+    console.log("submitting formValues...:", values);
     const { restaurantDoc } = this.state;
     const { coverPhoto, logo } = values.media;
 
@@ -130,19 +119,19 @@ class Restaurant extends Component {
           if (resp.data.length > 0) {
             dataToSubmit.address.lat = resp.data[0].lat;
             dataToSubmit.address.lon = resp.data[0].lon;
+            dataToSubmit.address.geohash = geohash.encode(
+              resp.data[0].lat,
+              resp.data[0].lon
+            );
           }
         });
     }
 
-    if (restaurantDoc) {
-      this.updateRestaurantDoc(restaurantDoc, dataToSubmit).then(() => {
-        return formikApi.setSubmitting(false);
-      });
-    } else {
-      this.createNewRestaurantDoc(dataToSubmit).then(() => {
-        return formikApi.setSubmitting(false);
-      });
-    }
+    console.log("saving enhaced data to db: ", dataToSubmit);
+
+    this.saveRestaurant(dataToSubmit).then(() => {
+      return formikApi.setSubmitting(false);
+    });
   };
 
   render() {

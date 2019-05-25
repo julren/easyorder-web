@@ -42,7 +42,7 @@ const SignUp = props => {
             type: "password"
           },
           passwordConfirm: {
-            label: "Confirm Password",
+            label: "Password wiederholen",
             type: "password"
           }
         }}

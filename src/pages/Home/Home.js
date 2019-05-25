@@ -3,30 +3,6 @@ import { Container, Header, Image } from "semantic-ui-react";
 import { db } from "../../config/firebase";
 
 class Home extends Component {
-  test = [
-    {
-      name: "Salat",
-      description: "Mit Tomaten, Essig und Öl",
-      rating: 4,
-      price: 8,
-      photoURL: "https://images.lecker.de/,id=8b9be707,b=lecker,w=610,cg=c.jpg"
-    },
-    {
-      name: "Salat",
-      description: "Mit Tomaten, Essig und Öl",
-      rating: 4,
-      price: 8,
-      photoURL: "https://images.lecker.de/,id=8b9be707,b=lecker,w=610,cg=c.jpg"
-    },
-    {
-      name: "Salat",
-      description: "Mit Tomaten, Essig und Öl",
-      rating: 4,
-      price: 8,
-      photoURL: "https://images.lecker.de/,id=8b9be707,b=lecker,w=610,cg=c.jpg"
-    }
-  ];
-
   componentDidMount() {
     db.collection("restastaurants")
       .doc("WTpxRrjqspaedb8EnBTMRO1KVDM2")
@@ -47,7 +23,7 @@ class Home extends Component {
         </Header>
         <Image
           fluid
-          src={require("../tables/pdfGenerator/assets/qr-pinup-banner.jpg")}
+          src={require("../../../public/assets/home-restaurant-banner.jpg")}
         />
       </Container>
     );

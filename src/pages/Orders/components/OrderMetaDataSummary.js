@@ -1,6 +1,6 @@
+import moment from "moment";
 import React from "react";
 import { Table } from "semantic-ui-react";
-import moment from "moment";
 
 const OrderMetaDataSummary = props => {
   const { orderDoc } = props;

@@ -28,6 +28,7 @@ const MenuItemForm = ({ onSubmit, initialValues = placholderValues }) => {
                 <Input
                   inputProps={{
                     type: "number",
+                    step: "0.1",
                     pattern: "[0-9]+([,.][0-9]+)?"
                   }}
                   name="price"

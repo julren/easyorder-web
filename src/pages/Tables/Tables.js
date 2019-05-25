@@ -68,29 +68,31 @@ class Tables extends Component {
 
     return (
       <Container>
-        <Header as="h1">
-          Tische
-          <Header.Subheader>
-            Tische und anlegen, verwalten und Tisch-Codes generieren
-          </Header.Subheader>
-        </Header>
+        <Segment basic loading={loading}>
+          <Header as="h1">
+            Tische
+            <Header.Subheader>
+              Tische und anlegen, verwalten und Tisch-Codes generieren
+            </Header.Subheader>
+          </Header>
 
-        <TablesTable tableDocs={tableDocs} onDataChange={this.getTables} />
+          <TablesTable tableDocs={tableDocs} onDataChange={this.getTables} />
 
-        <Segment padded={false} clearing basic>
-          <Button
-            content="Tisch hinzufügen"
-            icon="plus"
-            primary
-            onClick={this.onModalOpen}
-            floated="right"
+          <Segment padded={false} clearing basic>
+            <Button
+              content="Tisch hinzufügen"
+              icon="plus"
+              primary
+              onClick={this.onModalOpen}
+              floated="right"
+            />
+          </Segment>
+
+          <CreateTableModal
+            open={createTableModalOpen}
+            onClose={this.onModalClose}
           />
         </Segment>
-
-        <CreateTableModal
-          open={createTableModalOpen}
-          onClose={this.onModalClose}
-        />
       </Container>
     );
   }

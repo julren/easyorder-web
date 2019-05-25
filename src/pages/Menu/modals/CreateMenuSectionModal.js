@@ -37,7 +37,7 @@ class CreateMenuSectionModal extends Component {
     return (
       <Modal size="small" dimmer={true} open={open} onClose={onClose}>
         <Modal.Header style={{ backgroundColor: "#008ACD", color: "#fff" }}>
-          Kategorie erstellen
+          Abschnitt erstellen
         </Modal.Header>
         <Modal.Content>
           <Modal.Description>
@@ -56,5 +56,6 @@ export default withRestaurantContext(CreateMenuSectionModal);
 
 const placeholderCategory = {
   name: "",
-  description: ""
+  description: "",
+  orderNum: 0
 };

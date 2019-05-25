@@ -130,6 +130,7 @@ class OrderCard extends Component {
                       }
                     />
                   </span>
+                  {moment(orderDate.toDate()).fromNow()}
                 </List.Header>
                 <List.Description>
                   {moment(orderDate.toDate()).fromNow()}
@@ -150,6 +151,12 @@ class OrderCard extends Component {
                       <List.Header>
                         {element.quantity}x {element.item.name}
                       </List.Header>
+                      {element.comment ? (
+                        <List.Description>
+                          <Icon name="comment" />
+                          {element.comment}
+                        </List.Description>
+                      ) : null}
                     </List.Content>
                   </List.Content>
                   <List.Content floated="right">

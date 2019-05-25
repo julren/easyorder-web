@@ -5,6 +5,8 @@ import RestaurantReviewsReport from "./RestaurantReviewsReport";
 import CurrentOrderStatusReport from "./CurrentOrderStatusReport";
 import SalesReport from "./SalesReport";
 import BestAndWorstRatedMenuItemsReport from "./BestAndWorstRatedMenuItemsReport";
+import MenuItemsReviewsReport from "./MenuItemsReviewsReport";
+import TableWaitingTimesReport from "./TableWaitingTimesReport";
 
 class Report extends Component {
   state = {};
@@ -23,11 +25,14 @@ class Report extends Component {
             <CurrentOrderStatusReport />
 
             <RestaurantReviewsReport />
+            <TableWaitingTimesReport />
           </Grid.Column>
           <Grid.Column>
             <SalesReport />
 
             <BestAndWorstRatedMenuItemsReport />
+
+            <MenuItemsReviewsReport />
           </Grid.Column>
         </Grid>
       </Container>

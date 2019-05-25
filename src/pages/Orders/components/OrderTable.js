@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, List, Image, Table, ListItem } from "semantic-ui-react";
+import { Modal, List, Image, Table, ListItem, Icon } from "semantic-ui-react";
 
 const OrderTable = props => {
   const {
@@ -35,6 +35,12 @@ const OrderTable = props => {
               <span style={{ color: "grey" }}>
                 <br />
                 {element.item.description}
+                {element.comment ? (
+                  <>
+                    <br />
+                    <Icon name="comment" /> {element.comment}
+                  </>
+                ) : null}
               </span>
             </Table.Cell>
             <Table.Cell collapsing textAlign="right">

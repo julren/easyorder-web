@@ -6,6 +6,7 @@ import MenuItemsListItem from "./MenuItemsListItem";
 import EditMenuItemModal from "../modals/EditMenuItemModal";
 import Restaurant from "../../restaurant/Resturant";
 import MenuSectionInfos from "./MenuSectionInfos";
+import MenuItemReviewsModal from "../modals/MenuItemReviewsModal";
 
 class MenuSectionDetail extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class MenuSectionDetail extends Component {
     this.state = {
       createMenuItemModalOpen: false,
       editMenuItemModalOpenIndex: null,
+      menuItemReviewModalOpenIndex: null,
       menuItemDocs: [],
       loading: true
     };
@@ -49,6 +51,16 @@ class MenuSectionDetail extends Component {
   closeEditMenuItemModal = () => {
     this.setState({ editMenuItemModalOpenIndex: null });
     this.getMenuItemDocs();
+  };
+
+  openMenuItemReviewsModal = menuItemReviewModalOpenIndex => {
+    this.setState({
+      menuItemReviewModalOpenIndex: menuItemReviewModalOpenIndex
+    });
+  };
+
+  closeMenuItemReviewsModal = () => {
+    this.setState({ menuItemReviewModalOpenIndex: null });
   };
 
   getMenuItemDocs = () => {
@@ -105,6 +117,7 @@ class MenuSectionDetail extends Component {
               <React.Fragment key={index}>
                 <MenuItemsListItem
                   menuItemDoc={doc}
+                  onShowReviews={() => this.openMenuItemReviewsModal(index)}
                   onEdit={() => this.openEditMenuItemModal(index)}
                   onDelete={() => this.onDelete(doc)}
                 />
@@ -114,6 +127,12 @@ class MenuSectionDetail extends Component {
                   categoryID={this.props.categoryID}
                   open={this.state.editMenuItemModalOpenIndex === index}
                   onClose={this.closeEditMenuItemModal}
+                />
+
+                <MenuItemReviewsModal
+                  menuItemDoc={doc}
+                  open={this.state.menuItemReviewModalOpenIndex === index}
+                  onClose={this.closeMenuItemReviewsModal}
                 />
               </React.Fragment>
             ))}

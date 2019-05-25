@@ -21,7 +21,7 @@ const SalesReport = props => {
   });
 
   const salesToday = orders
-    .filter(order => moment(order.orderDate).isSame(TODAY))
+    .filter(order => moment(order.orderDate).isSame(TODAY, "day"))
     .map(order => order.grandTotal)
     .reduce((total, element) => {
       return total + element;

@@ -24,6 +24,7 @@ class LiveOrdersBoard extends Component {
   setUpDBListener = () => {
     db.collection("orders")
       .where("restaurant.restaurantID", "==", firebase.auth().currentUser.uid)
+      .orderBy("orderDate")
       .onSnapshot(querySnapshot => {
         if (querySnapshot.empty) {
           console.log(

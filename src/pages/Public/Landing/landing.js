@@ -18,31 +18,27 @@ const Landing = () => {
     <>
       <Segment
         inverted
+        color="blue"
+        inverted
         textAlign="center"
-        style={{
-          minHeight: 700,
-          padding: "1em 0em"
-          // backgroundImage: `url("https://toredco.com.vn/wp-content/uploads/2017/09/restaurant_1.jpg")`,
-          // backgroundSize: "cover"
-        }}
+        style={{ paddingTop: "150px", paddingBottom: "150px" }}
         vertical
       >
-        <Container text>
+        <Container>
           <Header
             className="brand-title"
             as="h1"
             content="EasyOrder"
             inverted
             style={{
-              fontSize: "4em",
+              fontSize: "5em",
               fontWeight: "normal",
-              marginBottom: 0,
-              marginTop: "3em"
+              marginBottom: 0
             }}
           />
           <Header
             as="h2"
-            content="Modernes Bestellsystem für die Gastronomie"
+            content="Restaurantbestellungen so einfach wie nie"
             inverted
             style={{
               fontSize: "1.7em",
@@ -50,81 +46,102 @@ const Landing = () => {
               marginTop: "1.5em"
             }}
           />
-          <Button primary size="huge" as={Link} to="/signup">
-            Registrieren
-            <Icon name="right arrow" />
-          </Button>
-          <Button primary size="huge" as={Link} to="/login">
-            Login
-            <Icon name="right arrow" />
-          </Button>
+          <div style={{ paddingTop: "30px" }}>
+            <Button primary basic inverted size="huge" as={Link} to="/signup">
+              Registrieren
+            </Button>
+            <Button primary basic inverted size="huge" as={Link} to="/login">
+              Login
+            </Button>
+          </div>
         </Container>
       </Segment>
-      <Segment style={{ padding: "8em 0em" }} vertical>
-        <Grid container stackable verticalAlign="middle">
-          <Grid.Row>
-            <Grid.Column width={8}>
-              <Header as="h3" style={{ fontSize: "2em" }}>
-                Bestellen im Restaurant so einfach wie nie!
-              </Header>
-              <p style={{ fontSize: "1.33em" }}>
-                Bestellen Sie einfach per Smartphone im Restaurant und genießen
-                Sie viele Vorteile.
-              </p>
-              <Header as="h3" style={{ fontSize: "2em" }}>
-                Für Gastronomen: Effektive Bestellabwicklung
-              </Header>
-              <p style={{ fontSize: "1.33em" }}>
-                Personalbedarf reduzieren und Umsatz steigern.
-              </p>
-            </Grid.Column>
-            <Grid.Column floated="right" width={6}>
-              <Image
-                bordered
-                rounded
-                size="large"
-                src="https://toredco.com.vn/wp-content/uploads/2017/09/restaurant_1.jpg"
-              />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column textAlign="center">
-              <Button size="huge">Jetzt testen</Button>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Segment>
-      <Segment style={{ padding: "0em" }} vertical>
-        <Grid celled="internally" columns="equal" stackable>
-          <Grid.Row textAlign="center">
-            <Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
-              <Header as="h3" style={{ fontSize: "2em" }}>
-                "Großartiges Erlebnis!"
-              </Header>
-              <p style={{ fontSize: "1.33em" }}>Gäste lieben es!</p>
-            </Grid.Column>
-            <Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
-              <Header as="h3" style={{ fontSize: "2em" }}>
-                "Wir konnten eine Umsatzsteigerung um 34% realisieren"
-              </Header>
-              <p style={{ fontSize: "1.33em" }}>
-                <b>Peter Meier</b> La Dolce Vita Landshut
-              </p>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Segment>
-      <Segment style={{ padding: "8em 0em" }} vertical>
-        <Container text>
-          <Header as="h3" style={{ fontSize: "2em" }}>
-            Easy Order - eine tolle Masterarbeit!
-          </Header>
-          <p style={{ fontSize: "1.33em" }}>Gutes Ergebnis und viel gelert</p>
-          <Button as="a" size="large">
-            Jetzt bewerten
-          </Button>
-        </Container>
-      </Segment>
+      <Container>
+        <Segment style={{ padding: "6em 0em" }} vertical>
+          <Grid container stackable verticalAlign="middle">
+            <Grid.Row>
+              <Grid.Column width={6}>
+                <Image
+                  rounded
+                  size="medium"
+                  src={require("./images/appscreenshot.png")}
+                />
+              </Grid.Column>
+              <Grid.Column width={8} floated="right">
+                <Header as="h3" style={{ fontSize: "2em" }}>
+                  Bestellen Sie Ihre Lieblingsgerichte komfortabel über Ihr
+                  Smartphone! 😍
+                </Header>
+                <p style={{ fontSize: "1.33em" }}>
+                  Nutzen Sie die EasyOrder-App für iOS & Android, um in Ihrem
+                  Lieblingsrestaurant Ihre Bestellung aufzugeben und genießen
+                  Sie viele Vorteile.
+                </p>
+
+                <Button size="huge" primary>
+                  Jetzt die App downloaden
+                </Button>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Segment>
+
+        <Segment style={{ padding: "6em 0em" }} vertical>
+          <Grid container stackable verticalAlign="middle">
+            <Grid.Row>
+              <Grid.Column width={6}>
+                <Header as="h3" style={{ fontSize: "2em" }}>
+                  Für Restaurantbetreiber: Bieten Sie Ihren Kunden ein
+                  einmaliges Erlebnis! 🤓
+                </Header>
+                <p style={{ fontSize: "1.33em" }}>
+                  EasyOrder hilft Ihnen dabei Ihren Umsatz zu steigern und Ihre
+                  Kunden glücklich zu machen.
+                </p>
+
+                <Button size="huge" primary>
+                  Jetzt ihr Restaurant registrieren
+                </Button>
+              </Grid.Column>
+
+              <Grid.Column floated="right" width={8}>
+                <Image
+                  rounded
+                  size="huge"
+                  src={require("./images/webscreenshot.png")}
+                />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Segment>
+
+        <Segment style={{ padding: "0em" }} vertical>
+          <Grid celled="internally" columns="equal" stackable>
+            <Grid.Row
+              textAlign="center"
+              style={{ paddingTop: "20px", paddingBottom: "20px" }}
+            >
+              <Grid.Column>
+                <Header as="h1">😃</Header>
+                <Header as="h3" style={{ fontSize: "2em" }}>
+                  "Ein großartiges Erlebnis!"
+                </Header>
+                <p style={{ fontSize: "1.33em" }}>Unsere Gäste lieben es!</p>
+              </Grid.Column>
+              <Grid.Column>
+                <Header as="h1">🎉</Header>
+                <Header as="h3" style={{ fontSize: "2em" }}>
+                  "34% mehr Umsatz dank EasyOrder"
+                </Header>
+                <p style={{ fontSize: "1.33em" }}>
+                  <b>Peter Meier</b> - La Dolce Vita Landshut
+                </p>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Segment>
+      </Container>
+
       <Segment inverted vertical style={{ padding: "5em 0em" }}>
         <Container>
           <Grid divided inverted stackable>

@@ -30,6 +30,7 @@ class Menu extends Component {
     db.collection("restaurants")
       .doc(firebase.auth().currentUser.uid)
       .collection("menuSections")
+      .orderBy("orderNum")
       .get()
       .then(querySnapshot => {
         if (querySnapshot.empty) {

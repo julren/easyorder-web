@@ -12,7 +12,7 @@ class MenuItemsListItem extends Component {
       description,
       photo
     } = this.props.menuItemDoc.data();
-    const { onDelete, onEdit } = this.props;
+    const { onDelete, onEdit, onShowReviews } = this.props;
     const handleMouseEnter = () => this.setState({ hovering: true });
     const handleMouseLeave = () => this.setState({ hovering: false });
 
@@ -60,8 +60,18 @@ class MenuItemsListItem extends Component {
           </Header>
         </Table.Cell>
         <Table.Cell>{parseFloat(price).toFixed(2)}€</Table.Cell>
-        <Table.Cell>
-          <Rating rating={rating} maxRating={5} disabled />
+        <Table.Cell
+          onClick={() => {
+            this.setState({ hovering: false });
+            onShowReviews();
+          }}
+        >
+          <Rating
+            icon="star"
+            rating={rating ? rating.avgRating : 0}
+            maxRating={5}
+            disabled
+          />
         </Table.Cell>
         <Table.Cell textAlign="right" width={2}>
           {this.state.hovering ? <EditButtons /> : null}
