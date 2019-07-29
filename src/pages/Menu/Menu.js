@@ -41,9 +41,7 @@ class Menu extends Component {
           this.setState(prevState => ({
             loading: false,
             menuSectionDocs: querySnapshot.docs,
-            selectedMenuSectionDoc: prevState.selectedMenuSectionDoc
-              ? prevState.selectedMenuSectionDoc
-              : querySnapshot.docs[0]
+            selectedMenuSectionDoc: querySnapshot.docs[0]
           }));
         }
       })

@@ -130,7 +130,6 @@ class OrderCard extends Component {
                       }
                     />
                   </span>
-                  {moment(orderDate.toDate()).fromNow()}
                 </List.Header>
                 <List.Description>
                   {moment(orderDate.toDate()).fromNow()}

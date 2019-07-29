@@ -37,8 +37,8 @@ class TableWaitingTimesReport extends Component {
         </Segment>
         <Segment>
           <List verticalAlign="middle">
-            {sortedOrders.map(order => (
-              <List.Item>
+            {sortedOrders.map((order, index) => (
+              <List.Item key={index}>
                 <List.Content floated="right">
                   <List.Header>{moment(order.orderDate).fromNow()}</List.Header>
                 </List.Content>

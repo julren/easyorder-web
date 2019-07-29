@@ -31,6 +31,7 @@ class LiveOrdersBoard extends Component {
             "No orders for restaurantID ",
             firebase.auth().currentUser.uid
           );
+          this.setState({ loading: false });
         } else {
           let openOrdersDocs = [];
           let inProgressOrdersDocs = [];
@@ -76,7 +77,6 @@ class LiveOrdersBoard extends Component {
   render() {
     const { openOrdersDocs, loading } = this.state;
     if (loading) return <Loader size="big" active inline="centered" />;
-
     return (
       <Grid columns={3} verticalAlign="top">
         <Grid.Row>

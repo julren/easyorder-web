@@ -128,7 +128,7 @@ const TableQrPdfDocument = props => {
             Einfach mit EasyOrder bestellen!
           </Text>
           <Text style={styles.descText}>
-            {`Nutzen Sie die EasyOrder App, um bequem per Smartphone zu bestellen. Stellen Sie in der App ihr Menü zusammen und scannen Sie den QR-Code, um die Bestellung aufzugeben.`}
+            {`Scannen Sie diesen Code mit der EasyOrder-App, um sich am Tisch anzumelden. Im Anschluss können Sie ihre Lieblingsgerichte auswählen und bestellen. Guten Appetit!`}
           </Text>
         </View>
 

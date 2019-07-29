@@ -29,7 +29,7 @@ const Layout = props => {
         </Grid>
       </div>
       <main style={{ flex: 1 }}>
-        <Segment vertical style={{ padding: "2em 0em 10em 0em" }}>
+        <Segment vertical style={{ padding: "2em 0em 2em 0em" }}>
           <Main>
             <Routes {...props} />
           </Main>

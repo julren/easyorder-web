@@ -44,8 +44,10 @@ class BestAndWorstRatedMenuItemsReport extends Component {
     });
 
     const rankedMenuItems = menuItemsWithRating.sort((a, b) => {
-      return a.rating.avgRating < b.rating.avgRating;
+      return a.rating.avgRating < b.rating.avgRating ? 1 : -1;
     });
+
+    console.log(rankedMenuItems);
 
     this.setState({ rankedMenuItems: rankedMenuItems, loading: false });
   };

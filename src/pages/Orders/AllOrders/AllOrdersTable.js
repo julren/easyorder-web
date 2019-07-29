@@ -6,7 +6,8 @@ import {
   Input,
   Segment,
   Menu,
-  Loader
+  Loader,
+  Header
 } from "semantic-ui-react";
 import _ from "lodash";
 import { db, firebase } from "../../../config/firebase";
@@ -41,6 +42,7 @@ class AllOrdersTable extends Component {
             "No orders for restaurantID ",
             firebase.auth().currentUser.uid
           );
+          this.setState({ loading: false });
         } else {
           let orderDocs = [];
           querySnapshot.forEach(doc => {
@@ -115,6 +117,10 @@ class AllOrdersTable extends Component {
     const { column, direction, diplayedOrderDocs, loading } = this.state;
 
     if (loading) return <Loader active inline="centered" />;
+    if (diplayedOrderDocs.length == 0) {
+      return <Header as="h3" content="Keine Bestellungen bisher" />;
+    }
+
     return (
       <React.Fragment>
         <Segment attached="top" color="blue" inverted>

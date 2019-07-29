@@ -14,10 +14,6 @@ firebase.initializeApp(config);
 // Initialize Cloud Firestore through Firebase
 const db = firebase.firestore();
 const storage = firebase.storage();
-// Disable deprecated features
-db.settings({
-  timestampsInSnapshots: true
-});
 
 const firebaseRestaurants = db.collection("restaurants");
 
