@@ -15,9 +15,11 @@ Gastronomen können ihr Lokal auf der Plattform anmelden, ihre Speisekarte verwa
 
 **Mehr Screenshots in** `/screenshots`
 
+![alt text](https://github.com/julren/easyorder-web/blob/master/screenshots/Screenshot-EasyOrder-WebApp%207.png "EasyOrder")
+
 ![alt text](https://raw.githubusercontent.com/julren/easyorder-web/master/screenshots/Screenshot-EasyOrder-WebApp%208.png "EasyOrder")
 
-
+![alt text](https://raw.githubusercontent.com/julren/easyorder-web/master/screenshots/Screenshot-EasyOrder-WebApp%2010.png "EasyOrder")
 ## Installation
 - (install npm)
 - run `npm install` in project root
