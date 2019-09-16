@@ -1,4 +1,23 @@
 # EasyOrder Web
+EasyOrder ist eine Restaurantbestllplattform, die es Gästen erlaubt, neue Restaurants in ihrer Nähe zu finden und vor Ort direkt via Smartphone-App zu bestellen. Vor der Bestellungen melden sich Gäste über das Scannen eines QR-Code-Tischaufsteller am Restaurant-Tisch an.
+Gastronomen können ihr Lokal auf der Plattform anmelden, ihre Speisekarte verwalten, Bestellungen abarbeiten und Einblick über den Erfolg ihres Lokals erhalten.
+
+**Technische Basis**: Die WebApp wurde mit React umgesetzt, die Smartphone-App mit React Native. Als Backend kommt Firebase zum Einsatz.
+
+**Wichtigste Features der WebApp für Gastronomen:**
+
+* Öffentliche Landing Page
+* Registrieren / Login
+* Restaurant mit Speisekarte anlegen & verwalten
+* Tische anlegen, verwalten und QR-Tischocde-Aufsteller generieren
+* Bestellungen LIVE in einer Kanban-Board ansicht sehen und abarbeiten
+* Verschiedene Auswertungen zum Restaurant einsehen
+
+**Mehr Screenshots in** `/screenshots`
+
+![alt text](https://raw.githubusercontent.com/julren/easyorder-web/master/screenshots/Screenshot-EasyOrder-WebApp%208.png "EasyOrder")
+
+
 ## Installation
 - (install npm)
 - run `npm install` in project root
