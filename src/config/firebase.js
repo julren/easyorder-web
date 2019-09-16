@@ -1,12 +1,7 @@
 import firebase from "firebase";
 
 const config = {
-  apiKey: "***REMOVED***",
-  authDomain: "***REMOVED***",
-  databaseURL: "***REMOVED***",
-  projectId: "***REMOVED***",
-  storageBucket: "***REMOVED***",
-  messagingSenderId: "***REMOVED***"
+  //Firebase Config Data
 };
 
 firebase.initializeApp(config);
