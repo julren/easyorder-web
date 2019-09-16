@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
 
 // Create Document Component
 const TableQrPdfDocument = props => {
+  console.log("TableQrPdfDocument props", props);
   const { tableDoc, restaurantDoc } = props;
   const { name: tableName } = tableDoc.data();
   const { name: restaurantName } = restaurantDoc.data();

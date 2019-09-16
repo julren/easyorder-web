@@ -196,17 +196,5 @@ const placeholderRestaurantValues = {
     coverPhoto: "",
     logo: ""
   },
-  rating: {
-    totalRatingPoints: 0,
-    totalNumRatings: 0,
-    avgRating: 0,
-    ratingDistribution: {
-      "5": 0,
-      "4": 0,
-      "3": 0,
-      "2": 0,
-      "1": 0
-    }
-  }
 };
 // TODO: evtl rating felder erst bei firebase cloud functions anlegen

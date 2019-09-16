@@ -3,15 +3,6 @@ import { Container, Header, Image } from "semantic-ui-react";
 import { db } from "../../config/firebase";
 
 class Home extends Component {
-  componentDidMount() {
-    db.collection("restastaurants")
-      .doc("WTpxRrjqspaedb8EnBTMRO1KVDM2")
-      .collection("menuItems")
-      .doc("7lSmww1LjR8oCMQmUOUm")
-      .get()
-      .then(doc => console.log(doc));
-  }
-
   render() {
     return (
       <Container>

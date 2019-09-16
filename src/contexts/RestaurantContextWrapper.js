@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { db, firebase } from "../config/firebase";
+import { db, firebase, firebaseRestaurants } from "../config/firebase";
 
 const RestaurantContext = React.createContext("restaurant");
 const RestaurantContextConsumer = RestaurantContext.Consumer;
@@ -14,7 +14,7 @@ class RestaurantContextWrapper extends Component {
       orderDocs: [],
       inProgressOrdersDocs: [],
       readyForServingOrdersDocs: [],
-      restaurantDoc: { undefined }
+      restaurantDoc: undefined
     };
   }
 
@@ -42,19 +42,24 @@ class RestaurantContextWrapper extends Component {
 
   getRestaurantForUser = async () => {
     console.log(
-      "firebase.auth().currentUser.uid",
+      "getRestaurantForUser for UID: ",
       firebase.auth().currentUser.uid
     );
     return db
       .collection("restaurants")
       .doc(firebase.auth().currentUser.uid)
       .get()
-      .then(doc => {
+      .then(async doc => {
         if (!doc.exists) {
           console.log(
             "No restaurants found for for uid",
-            firebase.auth().currentUser.uid
+            firebase.auth().currentUser.uid,
+            " - initializing it."
           );
+
+          return this.initializeRestaurant().then(() => {
+            return this.getRestaurantForUser();
+          });
         } else {
           console.log("found restaurant", doc.data());
           return doc;
@@ -76,6 +81,18 @@ class RestaurantContextWrapper extends Component {
             orderDocs: querySnapshot.docs
           });
         }
+      });
+  };
+
+  initializeRestaurant = async () => {
+    await firebaseRestaurants
+      .doc(firebase.auth().currentUser.uid)
+      .set(placeholderRestaurantValues)
+      .then(() => {
+        console.log("Restaurant Document initialized");
+      })
+      .catch(function(error) {
+        console.error("Error adding initializing document: ", error);
       });
   };
 
@@ -110,3 +127,32 @@ class RestaurantContextWrapper extends Component {
 }
 export { RestaurantContext, RestaurantContextConsumer };
 export default RestaurantContextWrapper;
+
+const placeholderRestaurantValues = {
+  name: "",
+  description: "",
+  cuisine: "",
+  priceClass: "",
+  address: {
+    street: "",
+    postcode: "",
+    city: "",
+    lat: "",
+    lon: ""
+  },
+  contactInfo: {
+    email: "",
+    phone: ""
+  },
+  businessHours: [
+    {
+      day: "",
+      openingHour: "",
+      closingHour: ""
+    }
+  ],
+  media: {
+    coverPhoto: "",
+    logo: ""
+  }
+};

@@ -1,3 +1,10 @@
+# EasyOrder Web
+## Installation
+- (install npm)
+- run `npm install` in project root
+- configure firebase account in `.src/config/firebase.js`. See [Firebase Docs](https://firebase.google.com/docs) for details.
+- start app with `npm start`
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

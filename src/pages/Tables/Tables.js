@@ -46,6 +46,7 @@ class Tables extends Component {
             loading: false
           });
         } else {
+          console.log("tables found: ", querySnapshot.docs);
           this.setState({
             tableDocs: querySnapshot.docs,
             loading: false
@@ -75,9 +76,11 @@ class Tables extends Component {
               Tische und anlegen, verwalten und Tisch-Codes generieren
             </Header.Subheader>
           </Header>
-
-          <TablesTable tableDocs={tableDocs} onDataChange={this.getTables} />
-
+          {tableDocs.length > 0 ? (
+            <TablesTable tableDocs={tableDocs} onDataChange={this.getTables} />
+          ) : (
+            <Header.Subheader>Noch keine Tische angelegt.</Header.Subheader>
+          )}
           <Segment padded={false} clearing basic>
             <Button
               content="Tisch hinzufügen"

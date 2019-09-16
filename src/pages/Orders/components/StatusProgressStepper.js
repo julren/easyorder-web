@@ -41,7 +41,3 @@ const StatusProgressStepper = props => {
 };
 
 export default StatusProgressStepper;
-
-StatusProgressStepper.proptypes = {
-  status: PropTypes.string.isRequired
-};
